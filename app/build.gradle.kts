@@ -80,7 +80,7 @@ dependencies {
 
 //google play services
     implementation("com.google.android.gms:play-services-location:21.1.0")
-
+//map
     implementation ("org.osmdroid:osmdroid-android:6.1.10")
     //ok http
     implementation ("com.squareup.okhttp3:okhttp:4.10.0")

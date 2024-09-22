@@ -4,11 +4,13 @@ import android.util.Log
 import com.example.weatherapp.data.model.Clouds
 import com.example.weatherapp.data.model.Main
 import com.example.weatherapp.data.model.Weather
+import com.example.weatherapp.data.model.WeatherResponse
+import com.example.weatherapp.data.model.WheatherModel
 import com.example.weatherapp.data.model.Wind
 
 class WeatherRemoteDataSource : IWeatherRemoteDataSourceImp {
 
-    val API_KEY = "7f6dd0097b5662feed4455238a1321a5"
+    val API_KEY = "f48d1fc66b3c4b9f11c2cbfbbe1047dc"
     private val WeatherService: ApiService by lazy {
         RetrofitHelper.getInstance().create(ApiService::class.java)
     }
@@ -25,15 +27,26 @@ class WeatherRemoteDataSource : IWeatherRemoteDataSourceImp {
         }
     }
 
-    override suspend fun getCurrentWeather(lat: Double, lon: Double): List<Weather>? {
-        val response = WeatherService.getCurrentWeather(lat, lon, API_KEY)
+    override suspend fun getCurrentWeatherBasic(lat: Double, lon: Double): List<Weather>? {
+        val response = WeatherService.getCurrentWeatherBasic(lat, lon, API_KEY)
         return if (response.isSuccessful) {
             response.body()?.weather
         } else {
+            Log.i("TAG", "getCurrentWeatherBasic: onFailure")
+            null
+        }
+    }
+
+    override suspend fun getCurrentWeather(lat: Double, lon: Double,lang :String): WeatherResponse? {
+        val response = WeatherService.getCurrentWeather(lat, lon,lang, API_KEY)
+        return if (response.isSuccessful){
+            response.body()
+        }else{
             Log.i("TAG", "getCurrentWeather: onFailure")
             null
         }
     }
+
     override suspend fun getMain(lat: Double, lon: Double) : Main?{
         val response = WeatherService.getMain(lat,lon,API_KEY)
         return if (response.isSuccessful) {
