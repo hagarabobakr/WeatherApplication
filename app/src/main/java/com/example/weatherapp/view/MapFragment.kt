@@ -81,9 +81,10 @@ class MapFragment : Fragment() {
                 p?.let {
                     val lat = it.latitude
                     val lon = it.longitude
-                    addMarker(it)
-                    viewModel.saveLocation(lat, lon) // Save location using ViewModel
-                    findNavController().navigate(R.id.action_homeFragment2_to_mapFragment)
+                    showConfirmationDialog(lat, lon)
+//                    addMarker(it)
+//                    viewModel.saveLocation(lat, lon) // Save location using ViewModel
+//                    findNavController().navigate(R.id.action_mapFragment_to_homeFragment2)
                 }
                 return true
             }
@@ -139,7 +140,7 @@ class MapFragment : Fragment() {
         yesButton.setOnClickListener {
             addMarker(GeoPoint(lat, lon))
             viewModel.saveLocation(lat, lon) // Save location using ViewModel
-            findNavController().navigate(R.id.action_homeFragment2_to_mapFragment)
+            findNavController().navigate(R.id.action_mapFragment_to_homeFragment2)
             dialog.dismiss()
         }
 

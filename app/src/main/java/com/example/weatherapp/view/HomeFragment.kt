@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import com.example.weatherapp.R
 import com.example.weatherapp.data.local.WeatherLocalDataSource
 import com.example.weatherapp.data.model.WeatherRepository
@@ -24,19 +25,21 @@ import java.util.Locale
 
 class HomeFragment : Fragment() {
     private lateinit var binding: FragmentHomeBinding
+    private lateinit var viewModel: HomeFragmentViewModel
+    private lateinit var homeFactory: HomeFragmentViewModelFactory
     private  val TAG = "HomeFragment"
-    private val remoteDataSource = WeatherRemoteDataSource()
+    /*private val remoteDataSource = WeatherRemoteDataSource()
     private val localDataSource = WeatherLocalDataSource()
     private val sharedPreferenceDataSourceImp =
         GlobalSharedPreferenceDataSourceImp(requireActivity().getSharedPreferences("MySharedPrefs",
             Context.MODE_PRIVATE))
     private val repository = WeatherRepository.getInstance(remoteDataSource,localDataSource,sharedPreferenceDataSourceImp)
+   */
     var lattitudeValue : Double = 0.0
     var longituteValue : Double =0.0
     lateinit var geoCoder : Geocoder
     lateinit var fusedLocationProviderClient: FusedLocationProviderClient
-    private lateinit var viewModel: HomeFragmentViewModel
-    private lateinit var homeFactory: HomeFragmentViewModelFactory
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -55,8 +58,15 @@ class HomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        val sharedPrefs = requireActivity().getSharedPreferences("MySharedPrefs", Context.MODE_PRIVATE)
+        val remoteDataSource = WeatherRemoteDataSource()
+        val localDataSource = WeatherLocalDataSource()
+        val sharedPreferenceDataSourceImp = GlobalSharedPreferenceDataSourceImp(sharedPrefs)
+        val repository = WeatherRepository.getInstance(remoteDataSource, localDataSource, sharedPreferenceDataSourceImp)
+
         homeFactory = HomeFragmentViewModelFactory(repository)
-        viewModel = ViewModelProvider(this,homeFactory).get(HomeFragmentViewModel::class.java)
+        viewModel = ViewModelProvider(this, homeFactory).get(HomeFragmentViewModel::class.java)
+
         viewModel.getCurrentWeather2(55.7522, 37.6156,"")
         viewModel.getCurrentWeather(10.99,44.34)
         viewModel.weather.observe(viewLifecycleOwner){ desc->
@@ -78,6 +88,9 @@ class HomeFragment : Fragment() {
 
 
             }
+        binding.mapImage.setOnClickListener {
+            findNavController().navigate(R.id.action_homeFragment2_to_mapFragment)
+        }
 
     }
 
