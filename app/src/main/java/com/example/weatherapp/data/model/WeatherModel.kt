@@ -30,10 +30,12 @@ data class Main(val temp: Double,
                 val grnd_level: Int?)
 
 data class Rain(@SerializedName("1h")var oneHour : Int)
+
 data class Weather(var id : Int,
                    var main : String,
                    var description : String,
                    var icon : String)
+
 
 data class Wind(var speed : Double,
                 var deg : Int,

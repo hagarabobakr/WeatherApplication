@@ -1,33 +1,45 @@
 package com.example.weatherapp.view
 
+import android.content.Context
+import android.location.Geocoder
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.ViewModelProvider
 import com.example.weatherapp.R
+import com.example.weatherapp.data.local.WeatherLocalDataSource
+import com.example.weatherapp.data.model.WeatherRepository
+import com.example.weatherapp.data.remot.WeatherRemoteDataSource
+import com.example.weatherapp.data.sharedprefrances.GlobalSharedPreferenceDataSourceImp
+import com.example.weatherapp.databinding.FragmentHomeBinding
+import com.example.weatherapp.viewmodel.home.HomeFragmentViewModel
+import com.example.weatherapp.viewmodel.home.HomeFragmentViewModelFactory
+import com.google.android.gms.location.FusedLocationProviderClient
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
-/**
- * A simple [Fragment] subclass.
- * Use the [HomeFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class HomeFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
-
+    private lateinit var binding: FragmentHomeBinding
+    private  val TAG = "HomeFragment"
+    private val remoteDataSource = WeatherRemoteDataSource()
+    private val localDataSource = WeatherLocalDataSource()
+    private val sharedPreferenceDataSourceImp =
+        GlobalSharedPreferenceDataSourceImp(requireActivity().getSharedPreferences("MySharedPrefs",
+            Context.MODE_PRIVATE))
+    private val repository = WeatherRepository.getInstance(remoteDataSource,localDataSource,sharedPreferenceDataSourceImp)
+    var lattitudeValue : Double = 0.0
+    var longituteValue : Double =0.0
+    lateinit var geoCoder : Geocoder
+    lateinit var fusedLocationProviderClient: FusedLocationProviderClient
+    private lateinit var viewModel: HomeFragmentViewModel
+    private lateinit var homeFactory: HomeFragmentViewModelFactory
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
+
     }
 
     override fun onCreateView(
@@ -35,26 +47,39 @@ class HomeFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_home, container, false)
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_home, container, false)
+
+        return binding.root
+
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment HomeFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            HomeFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        homeFactory = HomeFragmentViewModelFactory(repository)
+        viewModel = ViewModelProvider(this,homeFactory).get(HomeFragmentViewModel::class.java)
+        viewModel.getCurrentWeather2(55.7522, 37.6156,"")
+        viewModel.getCurrentWeather(10.99,44.34)
+        viewModel.weather.observe(viewLifecycleOwner){ desc->
+            binding.weatherDesc.text = desc?.get(0)?.description
+          //  binding.cityName.text =
+        }
+        viewModel.weather2.observe(viewLifecycleOwner){w->
+            binding.cityName.text = w?.name
+            val dateInMillis = w?.dt?.times(1000) ?: 0 // Convert from seconds to milliseconds
+            val dateFormat = SimpleDateFormat("dd MMM yyyy", Locale.getDefault())
+            val formattedDate = dateFormat.format(Date(dateInMillis))
+            binding.date.text = formattedDate
+            val tempInCelsius = w?.main?.temp?.minus(273.15)
+            val feelsLikeInCelsius = w?.main?.feels_like?.minus(273.15)
+
+            binding.temp.text = tempInCelsius?.let { String.format(" %.2f°C", it) } ?: "Temperature: N/A"
+            binding.feelsLike.text = feelsLikeInCelsius?.let { String.format("Feels like: %.2f°C", it) } ?: "Feels like: N/A"
+        // binding.toNight.text = w?.
+
+
             }
+
     }
+
+
 }

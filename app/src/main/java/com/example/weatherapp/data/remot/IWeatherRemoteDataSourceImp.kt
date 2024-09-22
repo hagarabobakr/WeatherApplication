@@ -3,10 +3,13 @@ package com.example.weatherapp.data.remot
 import com.example.weatherapp.data.model.Clouds
 import com.example.weatherapp.data.model.Main
 import com.example.weatherapp.data.model.Weather
+import com.example.weatherapp.data.model.WeatherResponse
+import com.example.weatherapp.data.model.WheatherModel
 import com.example.weatherapp.data.model.Wind
 
 interface IWeatherRemoteDataSourceImp {
-    suspend fun getCurrentWeather(lat: Double, lon: Double): List<Weather>?
+    suspend fun getCurrentWeatherBasic(lat: Double, lon: Double): List<Weather>?
+    suspend fun getCurrentWeather(lat: Double, lon: Double,lang :String): WeatherResponse?
 
     suspend fun getMain(lat: Double, lon: Double): Main?
     suspend fun getWind(lat: Double, lon: Double): Wind?

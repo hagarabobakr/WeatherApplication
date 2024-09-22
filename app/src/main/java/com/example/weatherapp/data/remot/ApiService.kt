@@ -3,6 +3,8 @@ package com.example.weatherapp.data.remot
 import com.example.weatherapp.data.model.CloudsResponse
 import com.example.weatherapp.data.model.CurrentWeatherResponse
 import com.example.weatherapp.data.model.MainResponse
+import com.example.weatherapp.data.model.WeatherResponse
+import com.example.weatherapp.data.model.WheatherModel
 import com.example.weatherapp.data.model.WindResponse
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -15,10 +17,29 @@ import retrofit2.http.Query
 interface ApiService {
 
     @GET("weather")
-    suspend fun getCurrentWeather(
+    suspend fun getCurrentWeatherBasic(
         @Query("lat") latitude: Double,
         @Query("lon") longitude: Double,
         @Query("appid") apiKey: String): Response<CurrentWeatherResponse>
+
+
+
+    @GET("weather")
+    suspend fun getCurrentWeather(
+        @Query("lat") latitude: Double,
+        @Query("lon") longitude: Double,
+        @Query("lang") lang:String,
+        @Query("appid") apiKey: String): Response<WeatherResponse>
+
+
+    /*@GET("weather")
+    suspend fun getCurrentWeather(
+        @Query("lat") lat: Double,
+        @Query("lon") lon: Double,
+        @Query("exclude") exclude: String? = null,
+        @Query("units") units: String? = null,
+        @Query("lang") lang: String? = null,
+        @Query("appid") apiKey: String): Response<WeatherResponse>*/
 
     @GET("main")
     suspend fun getMain(@Query("lat") latitude: Double,

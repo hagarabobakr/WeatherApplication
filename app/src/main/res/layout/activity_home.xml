@@ -22,7 +22,7 @@
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
-                android:backgroundTintMode="@color/summerSky"
+                android:backgroundTint="@color/summerSky"
                 android:gravity="center" />
         </com.google.android.material.appbar.AppBarLayout>
 
@@ -45,7 +45,7 @@
             android:layout_gravity="start"
             app:menu="@menu/main_menu"
             app:itemBackground="@drawable/nav_item_background"
-            app:itemIconTint="@color/white"
+            app:itemIconTint="@color/oceanBreeze"
             app:itemTextColor="@color/white" />
     </androidx.drawerlayout.widget.DrawerLayout>
 </layout>
