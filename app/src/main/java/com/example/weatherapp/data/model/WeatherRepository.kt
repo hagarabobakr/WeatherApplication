@@ -84,10 +84,15 @@ class WeatherRepository (private var remoteDataSource: WeatherRemoteDataSource,
         globalSharedPreferenceDataSource.setNotificationsEnabled(enabled)
     }
 
+    override fun getNotificationsEnabled(): String {
+        return globalSharedPreferenceDataSource.getNotificationsEnabled()
+    }
     override fun setLocationEnabled(location: String) {
         globalSharedPreferenceDataSource.setLocationEnabled(location)
     }
-
+    override fun getLocationEnabled(): String {
+        return globalSharedPreferenceDataSource.getLocationEnabled()
+    }
 
 
 }

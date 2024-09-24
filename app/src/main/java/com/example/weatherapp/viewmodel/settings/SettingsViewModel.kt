@@ -5,7 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.weatherapp.data.model.WeatherRepository
 
-class SettingsViewModel(private val repo: WeatherRepository) : ViewModel() {
+class SettingsViewModel(val repo: WeatherRepository) : ViewModel() {
     private val _selectedLanguage = MutableLiveData<String>()
     val selectedLanguage: LiveData<String> get() = _selectedLanguage
 
