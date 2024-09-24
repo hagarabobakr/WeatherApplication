@@ -30,4 +30,6 @@
     <string name="notification_icon">notification icon</string>
     <string name="today">Today</string>
     <string name="next_seven_days">Next Seven days</string>
+    <string name="confirmation">Confirmation</string>
+    <string name="are_you_sure_you_want_to_go_to_this_location">Are you sure you want to go to this location?</string>
 </resources>

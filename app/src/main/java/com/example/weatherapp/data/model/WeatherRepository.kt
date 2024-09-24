@@ -1,9 +1,13 @@
 package com.example.weatherapp.data.model
 
+import com.example.weatherapp.API_KEY
 import com.example.weatherapp.data.local.WeatherLocalDataSource
 import com.example.weatherapp.data.remot.WeatherRemoteDataSource
 import com.example.weatherapp.data.sharedprefrances.GlobalSharedPreferenceDataSource
 import com.example.weatherapp.data.sharedprefrances.GlobalSharedPreferenceDataSourceImp
+import com.example.weatherapp.units
+import kotlinx.coroutines.flow.Flow
+import retrofit2.Response
 
 class WeatherRepository (private var remoteDataSource: WeatherRemoteDataSource,
                          private var localDataSource: WeatherLocalDataSource,
@@ -24,18 +28,35 @@ class WeatherRepository (private var remoteDataSource: WeatherRemoteDataSource,
 
     }
 
-    override suspend fun getCurrentWeatherBasic(lat: Double, lon: Double) : List<Weather>?{
+
+
+    override suspend fun fetchCurrentWeather(
+        lat: Double,
+        lon: Double,
+        lang: String
+    ): Flow<Response<Weather>> {
+        return remoteDataSource.fetchCurrentWeather(lat,lon,lang)
+    }
+
+    override suspend fun fetchHourlyForecast(
+        lat: Double,
+        lon: Double,
+        lang: String
+    ): Flow<Response<Weather>> {
+        return remoteDataSource.fetchHourlyForecast(lat,lon,lang)
+    }
+
+    override suspend fun fetchDailyForecast(
+        lat: Double,
+        lon: Double,
+        lang: String
+    ): Flow<Response<Weather>> {
+        return remoteDataSource.fetchDailyForecast(lat,lon,lang)
+    }
+
+    /*override suspend fun getCurrentWeatherBasic(lat: Double, lon: Double) : List<Weather>?{
         return remoteDataSource.getCurrentWeatherBasic(lat,lon)
-    }
-    override suspend fun getCurrentWeather(lat: Double, lon: Double, lang : String) : WeatherResponse?{
-        return remoteDataSource.getCurrentWeather(lat,lon,lang)
-    }
-    override suspend fun getMain(lat: Double, lon: Double) : Main?{
-        return remoteDataSource.getMain(lat,lon)
-    }
-    override suspend fun getCityName(lat: Double, lon: Double) : String?{
-        return remoteDataSource.getCityName(lat,lon)
-    }
+    }*/
 
 
 

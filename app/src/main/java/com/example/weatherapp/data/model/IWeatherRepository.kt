@@ -1,11 +1,14 @@
 package com.example.weatherapp.data.model
 
+import kotlinx.coroutines.flow.Flow
+import retrofit2.Response
+
 interface IWeatherRepository {
     //Retrofit functions
-    suspend fun getCurrentWeatherBasic(lat: Double, lon: Double): List<Weather>?
-    suspend fun getCurrentWeather(lat: Double, lon: Double, lang: String): WeatherResponse?
-    suspend fun getMain(lat: Double, lon: Double): Main?
-    suspend fun getCityName(lat: Double, lon: Double): String?
+   // suspend fun getCurrentWeatherBasic(lat: Double, lon: Double): List<Weather>?
+    suspend fun fetchCurrentWeather(lat: Double, lon: Double,lang :String): Flow<Response<Weather>>
+    suspend fun fetchHourlyForecast(lat: Double, lon: Double,lang :String): Flow<Response<Weather>>
+    suspend fun fetchDailyForecast(lat: Double, lon: Double,lang :String): Flow<Response<Weather>>
 
     //SharedPref functions
 

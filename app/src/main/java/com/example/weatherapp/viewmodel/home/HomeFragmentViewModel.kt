@@ -9,64 +9,110 @@ import com.example.weatherapp.data.model.Main
 import com.example.weatherapp.data.model.Weather
 import com.example.weatherapp.data.model.WeatherRepository
 import com.example.weatherapp.data.model.WeatherResponse
+import com.example.weatherapp.data.remot.ApiState
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 class HomeFragmentViewModel (private val repo : WeatherRepository) : ViewModel() {
-    private  val TAG = "HomeFragmentViewModel"
-    var main : Main? = null
-    //getCurrentWeather
-    private val _weather = MutableLiveData<List<Weather>?>()
-    val weather: LiveData<List<Weather>?> = _weather
-    //getCityName
-    private val _name = MutableLiveData<List<String>?>()
-    val name: LiveData<List<String>?> = _name
+    private val TAG = "HomeFragmentViewModel"
 
-    private val _weather2 = MutableLiveData<WeatherResponse?>()
-    val weather2: LiveData<WeatherResponse?> = _weather2
-    var w2 :WeatherResponse? = null
+    //get current weather
+    private val _currentWeatherStateFlow = MutableStateFlow<ApiState>(ApiState.Loading)
+    val currentWeatherStateFlow: StateFlow<ApiState> = _currentWeatherStateFlow
+
+    //get hourly weather
+    private val _hourlyWeatherStateFlow = MutableStateFlow<ApiState>(ApiState.Loading)
+    val hourlyWeatherStateFlow: StateFlow<ApiState> = _hourlyWeatherStateFlow
+
+    //get daily weather
+    private val _dailyWeatherStateFlow = MutableStateFlow<ApiState>(ApiState.Loading)
+    val dailyWeatherStateFlow: StateFlow<ApiState> = _dailyWeatherStateFlow
+
 
     init {
-        getCurrentWeather(10.99,44.34)
-       // getCityName(10.99,44.34)
+        getCurrentWeather(2.5,5.5,"en")
+        getCurrentWeather(2.5,5.5,"ar")
+        getHourlyWeather(2.5,5.5,"en")
+        getHourlyWeather(2.5,5.5,"ar")
+        getDailyWeather(2.5,5.5,"en")
+        getDailyWeather(2.5,5.5,"ar")
     }
-    fun getCurrentWeather2(lat: Double, lon: Double,lang : String) {
-        viewModelScope.launch(Dispatchers.IO){
-             w2 = repo.getCurrentWeather(lat,lon,lang)
-           // val name = repo.getCurrentWeather(lat,lon,lang)?.name
-            withContext(Dispatchers.Main){
-                _weather2.postValue(w2)
-              //  _name.postValue(name?.let { listOf(it) })
-                Log.i(TAG, "getCityName: ${_name.let { listOf(it) }}")
-            }
-        }
-
-    }
-    fun getCurrentWeather(lat: Double, lon: Double){
-        viewModelScope.launch(Dispatchers.IO){
-            val w = repo.getCurrentWeatherBasic(lat,lon)
-            withContext(Dispatchers.Main){
-                _weather.postValue(w)
-            }
-        }
+    fun getCurrentWeather(lat: Double, lon: Double,lang : String) {
+       Log.i(TAG, "getCurrentWeather: ")
+        viewModelScope.launch{
+             repo.fetchCurrentWeather(lat,lon,lang)
+          .onStart {
+                    _currentWeatherStateFlow.value = ApiState.Loading
+                }.catch { e ->
+                    _currentWeatherStateFlow.value = ApiState.Failure(e)
+                }.collect{weather->
+                     Log.i(TAG, "getCurrentWeather: ${weather.body()}")
+                    
+                 }
+           
 
     }
+    }
 
-    /*fun getCityName(lat: Double, lon: Double){
-        viewModelScope.launch(Dispatchers.IO){
-            val n = repo.getCityName(lat,lon)
-            withContext(Dispatchers.Main){
-                _name.postValue(n?.let { listOf(it) })
-                Log.i(TAG, "getCityName: ${n?.let { listOf(it) }}")
-            }
-        }
-    }*/
-    /*fun getMain(lat: Double, lon: Double) : Main?{
+    fun getHourlyWeather(lat: Double, lon: Double,lang : String) {
+        Log.i(TAG, "getCurrentWeather: ")
+        viewModelScope.launch{
+            repo.fetchHourlyForecast(lat,lon,lang)
+                .onStart {
+                    _hourlyWeatherStateFlow.value = ApiState.Loading
+                }.catch { e ->
+                    _hourlyWeatherStateFlow.value = ApiState.Failure(e)
+                }.collect{weather->
+                    Log.i(TAG, "getHourlyWeather: ${weather.body()}")
 
-        viewModelScope.launch {
-            main =  repo.getMain(lat,lon)
+                }
+
+
         }
-        return main
-    }*/
+    }
+
+    fun getDailyWeather(lat: Double, lon: Double,lang : String) {
+        Log.i(TAG, "getCurrentWeather: ")
+        viewModelScope.launch{
+            repo.fetchHourlyForecast(lat,lon,lang)
+                .onStart {
+                    _dailyWeatherStateFlow.value = ApiState.Loading
+                }.catch { e ->
+                    _dailyWeatherStateFlow.value = ApiState.Failure(e)
+                }.collect{weather->
+                    Log.i(TAG, "getDailyWeather: ${weather.body()}")
+
+                }
+
+
+        }
+    }
+
+    
+//    fun getAllProducts() {
+//        Log.i(TAG, "getAllProducts: ")
+//
+//        viewModelScope.launch {
+//            _repo.getAllProducts()
+//                .onStart {
+//                    _productStateFlow.value = ApiState.Loading
+//                }
+//                .catch { e ->
+//                    _productStateFlow.value = ApiState.Failure(e)
+//                }
+//                .collect { products ->
+//                    Log.i(TAG, "getAllProducts: ${products.size}")
+//                    _productStateFlow.value = ApiState.Success(products)
+//                }
+//        }
+//    }
+    
+
+   
+
 }
