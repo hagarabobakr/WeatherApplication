@@ -28,10 +28,10 @@ class HomeFragmentViewModel (private val repo : WeatherRepository) : ViewModel()
     var w2 :WeatherResponse? = null
 
     init {
-        getCurrentWeather(10.99,44.34)
+        //getCurrentWeather(10.99,44.34)
        // getCityName(10.99,44.34)
     }
-    fun getCurrentWeather2(lat: Double, lon: Double,lang : String) {
+    /*fun getCurrentWeather2(lat: Double, lon: Double,lang : String) {
         viewModelScope.launch(Dispatchers.IO){
              w2 = repo.getCurrentWeather(lat,lon,lang)
            // val name = repo.getCurrentWeather(lat,lon,lang)?.name
@@ -50,7 +50,7 @@ class HomeFragmentViewModel (private val repo : WeatherRepository) : ViewModel()
                 _weather.postValue(w)
             }
         }
-
+*/
     }
 
     /*fun getCityName(lat: Double, lon: Double){
@@ -69,4 +69,3 @@ class HomeFragmentViewModel (private val repo : WeatherRepository) : ViewModel()
         }
         return main
     }*/
-}

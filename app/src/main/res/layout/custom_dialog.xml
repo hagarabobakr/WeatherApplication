@@ -1,6 +1,6 @@
 <!-- res/layout/custom_dialog.xml -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="wrap_content"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
     android:padding="16dp">
@@ -9,8 +9,10 @@
         android:id="@+id/dialog_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Confirmation"
-        android:textSize="18sp"
+        android:text="@string/confirmation"
+        android:textColor="@color/summerSky"
+        android:fontFamily="@font/yonoy"
+        android:textSize="28sp"
         android:textStyle="bold"/>
 
     <TextView
@@ -18,26 +20,35 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:text="Are you sure you want to go to this location?"
-        android:textSize="16sp"/>
+        android:fontFamily="@font/yonoy"
+        android:textColor="@color/oceanBreeze"
+        android:textSize="24sp"
+        android:text="@string/are_you_sure_you_want_to_go_to_this_location"
+        />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
+        android:weightSum="4"
+        android:gravity="center"
         android:layout_marginTop="16dp">
 
         <Button
             android:id="@+id/button_yes"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_weight="1"
+            android:layout_margin="16dp"
+            android:backgroundTint="@color/summerSky"
             android:layout_height="wrap_content"
             android:text="Yes"/>
 
         <Button
             android:id="@+id/button_no"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_weight="1"
+            android:backgroundTint="@color/summerSky"
+            android:layout_margin="16dp"
             android:layout_height="wrap_content"
             android:text="No"/>
     </LinearLayout>

@@ -14,6 +14,7 @@ data class WeatherResponse(
     val id: Int,
     val name: String,
     val cod: Int
+
 )
 data class CurrentWeatherResponse(val weather: List<Weather>)
 data class WindResponse(val wind : Wind)
