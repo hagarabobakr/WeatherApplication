@@ -50,7 +50,7 @@ class SettingsFragment : Fragment() {
         val repository = WeatherRepository.getInstance(remoteDataSource, localDataSource, sharedPreferenceDataSourceImp)
         settingsFactory = SettingsViewModelFactory(repository)
         viewModel = ViewModelProvider(this, settingsFactory).get(SettingsViewModel::class.java)
-
+        setInitialValues()
         binding.arrowLanguageIcon.setOnClickListener {
             toggleVisibility(binding.expandableLanguage)
         }
@@ -131,20 +131,13 @@ class SettingsFragment : Fragment() {
             viewModel.selectLocationEnabled(isChecked)
         }*/
 
-        // مراقبة القيم في ViewModel
         viewModel.selectedLanguage.observe(viewLifecycleOwner) {
-            // تحديث واجهة المستخدم إذا لزم الأمر
         }
-
         viewModel.selectedTemperatureUnit.observe(viewLifecycleOwner) {
-            // تحديث واجهة المستخدم إذا لزم الأمر
         }
-
         viewModel.selectedWindUnit.observe(viewLifecycleOwner) {
-            // تحديث واجهة المستخدم إذا لزم الأمر
         }
         viewModel.locationEnabled.observe(viewLifecycleOwner) {
-
         }
 
         viewModel.notificationsEnabled.observe(viewLifecycleOwner) {
@@ -165,4 +158,59 @@ class SettingsFragment : Fragment() {
         super.onDestroyView()
         //_binding = null
     }
+    private fun setInitialValues() {
+        // Retrieve the selected language
+        val language = viewModel.repo.getLang()
+        binding.radioGroupLanguage.check(
+            when (language) {
+                "ar" -> binding.radioArabic.id // If the language is Arabic
+                "en" -> binding.radioEnglish.id // If the language is English
+                else -> -1 // Unknown value
+            }
+        )
+
+        // Retrieve the temperature unit
+        val tempUnit = viewModel.repo.getTempUnit()
+        binding.radioGroupTemp.check(
+            when (tempUnit) {
+                "Kelvin" -> binding.radioKelvin.id // If the temperature unit is Kelvin
+                "Celsius" -> binding.radioCelsius.id // If the temperature unit is Celsius
+                "Fahrenheit" -> binding.radioFahrenheit.id // If the temperature unit is Fahrenheit
+                else -> -1 // Unknown value
+            }
+        )
+
+        // Retrieve the wind speed unit
+        val windUnit = viewModel.repo.getWindSpeedUnit()
+        binding.radioGroupWind.check(
+            when (windUnit) {
+                "Meter/Second" -> binding.radioMeterSec.id // If the wind speed unit is Meter/Second
+                "Km/Hour" -> binding.radioKmh.id // If the wind speed unit is Km/Hour
+                "Miles/Hour" -> binding.radioMph.id // If the wind speed unit is Miles/Hour
+                else -> -1 // Unknown value
+            }
+        )
+
+        // Retrieve location settings
+        val locationEnabled = viewModel.repo.getMapLon()
+        binding.radioGroupLocation.check(
+            when (locationEnabled) {
+                "GPS" -> binding.radioGps.id // If location setting is GPS
+                "Map" -> binding.radioMap.id // If location setting is Map
+                else -> -1 // Unknown value
+            }
+        )
+
+        // Retrieve notification settings
+        val notificationsEnabled = viewModel.repo.getNotificationsEnabled()
+        binding.radioGroupNotifications.check(
+            when (notificationsEnabled) {
+                "Enable" -> binding.radioEnable.id // If notifications are enabled
+                "Disable" -> binding.radioDisable.id // If notifications are disabled
+                else -> -1 // Unknown value
+            }
+        )
+    }
+
+
 }

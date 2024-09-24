@@ -9,5 +9,11 @@
     <color name="lavenderDreams">#B0A4FF</color>
     <color name="darkBlue">#5896FD</color>
     <color name="quietNight">#1A1D26</color>
-
+    <color name="softGray">#DDDEE0</color>
+    <color name="midnightBlack">#141721</color>
+    <color name="lightLavender">#D9D3FE</color>
+    <color name="gentlePurple">#A79AFE</color>
+    <color name="skyBlue">#6CA3FC</color>
+    <color name="pastelBlue">#93BCFE</color>
+    <color name="brightSky">#77A9FE</color>
 </resources>

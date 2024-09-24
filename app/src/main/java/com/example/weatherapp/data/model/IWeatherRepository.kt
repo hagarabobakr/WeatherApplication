@@ -27,4 +27,6 @@ interface IWeatherRepository {
 
     fun setNotificationsEnabled(enabled: String)
     fun setLocationEnabled(location: String)
+    fun getNotificationsEnabled(): String
+    fun getLocationEnabled(): String
 }

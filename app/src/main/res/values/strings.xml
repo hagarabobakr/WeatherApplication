@@ -28,4 +28,6 @@
     <string name="lang_icon">lang icon</string>
     <string name="location_icon">location icon</string>
     <string name="notification_icon">notification icon</string>
+    <string name="today">Today</string>
+    <string name="next_seven_days">Next Seven days</string>
 </resources>
