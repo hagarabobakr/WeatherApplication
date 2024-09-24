@@ -25,4 +25,6 @@ interface IWeatherRepository {
     fun setWindSpeedUnit(string:String)
 
 
+    fun setNotificationsEnabled(enabled: String)
+    fun setLocationEnabled(location: String)
 }

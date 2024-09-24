@@ -88,7 +88,7 @@ class HomeFragment : Fragment() {
 
 
             }
-        binding.mapImage.setOnClickListener {
+        binding.mapAnimator.setOnClickListener {
             findNavController().navigate(R.id.action_homeFragment2_to_mapFragment)
         }
 
