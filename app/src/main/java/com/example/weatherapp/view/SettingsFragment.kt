@@ -1,33 +1,34 @@
 package com.example.weatherapp.view
 
+import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.ViewModelProvider
 import com.example.weatherapp.R
+import com.example.weatherapp.data.local.WeatherLocalDataSource
+import com.example.weatherapp.data.model.WeatherRepository
+import com.example.weatherapp.data.remot.WeatherRemoteDataSource
+import com.example.weatherapp.data.sharedprefrances.GlobalSharedPreferenceDataSourceImp
+import com.example.weatherapp.databinding.FragmentHomeBinding
+import com.example.weatherapp.databinding.FragmentSettingsBinding
+import com.example.weatherapp.viewmodel.home.HomeFragmentViewModel
+import com.example.weatherapp.viewmodel.home.HomeFragmentViewModelFactory
+import com.example.weatherapp.viewmodel.settings.SettingsViewModel
+import com.example.weatherapp.viewmodel.settings.SettingsViewModelFactory
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
 
-/**
- * A simple [Fragment] subclass.
- * Use the [SettingsFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class SettingsFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
-
+    private lateinit var binding: FragmentSettingsBinding
+    private lateinit var viewModel: SettingsViewModel
+    private lateinit var settingsFactory: SettingsViewModelFactory
+    private  val TAG = "SettingsFragment"
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
+
     }
 
     override fun onCreateView(
@@ -35,26 +36,133 @@ class SettingsFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_settings, container, false)
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_settings, container, false)
+        return binding.root
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment SettingsFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            SettingsFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        val sharedPrefs = requireActivity().getSharedPreferences("MySharedPrefs", Context.MODE_PRIVATE)
+        val remoteDataSource = WeatherRemoteDataSource()
+        val localDataSource = WeatherLocalDataSource()
+        val sharedPreferenceDataSourceImp = GlobalSharedPreferenceDataSourceImp(sharedPrefs)
+        val repository = WeatherRepository.getInstance(remoteDataSource, localDataSource, sharedPreferenceDataSourceImp)
+        settingsFactory = SettingsViewModelFactory(repository)
+        viewModel = ViewModelProvider(this, settingsFactory).get(SettingsViewModel::class.java)
+
+        binding.arrowLanguageIcon.setOnClickListener {
+            toggleVisibility(binding.expandableLanguage)
+        }
+
+        binding.arrowTempIcon.setOnClickListener {
+            toggleVisibility(binding.expandableTemp)
+        }
+
+        binding.arrowUnitIcon.setOnClickListener {
+            toggleVisibility(binding.expandableUnit)
+        }
+        binding.arrowIcon.setOnClickListener{
+            toggleVisibility(binding.expandableNotifications)
+        }
+        binding.arrowLocationIcon.setOnClickListener {
+            toggleVisibility(binding.expandableLocation)
+        }
+
+        //  RadioButtons
+
+        //radioGroupLanguage
+        binding.radioGroupLanguage.setOnCheckedChangeListener { _, checkedId ->
+            val language = when (checkedId) {
+                binding.radioArabic.id -> "Arabic"
+                binding.radioEnglish.id -> "English"
+                else -> ""
             }
+            viewModel.selectLanguage(language)
+        }
+
+        //radioGroupTemp
+        binding.radioGroupTemp.setOnCheckedChangeListener { _, checkedId ->
+            val unit = when (checkedId) {
+                binding.radioKelvin.id -> "Kelvin"
+                binding.radioCelsius.id -> "Celsius"
+                binding.radioFahrenheit.id -> "Fahrenheit"
+                else -> ""
+            }
+            viewModel.selectTemperatureUnit(unit)
+        }
+
+        //radioGroupWind
+        binding.radioGroupWind.setOnCheckedChangeListener { _, checkedId ->
+            val unit = when (checkedId) {
+                binding.radioMeterSec.id -> "Meter/Second"
+                binding.radioKmh.id -> "Km/Hour"
+                binding.radioMph.id -> "Miles/Hour"
+                else -> ""
+            }
+            viewModel.selectWindUnit(unit)
+        }
+
+        //radioGroupLocation
+        binding.radioGroupLocation.setOnCheckedChangeListener { _, checkedId ->
+            val location = when (checkedId) {
+                binding.radioMph.id -> "Map"
+                binding.radioGps.id -> "GPS"
+                else -> ""
+            }
+            viewModel.selectLocationEnabled(location)
+        }
+
+        //radioGroupWind
+        binding.radioGroupNotifications.setOnCheckedChangeListener { _, checkedId ->
+            val notifications = when (checkedId) {
+                binding.radioEnable.id -> "Enable"
+                binding.radioDisable.id -> "Disable"
+                else -> ""
+            }
+            viewModel.selectNotificationsEnabled(notifications)
+        }
+
+        /*binding.switchNotifications.setOnCheckedChangeListener { _, isChecked ->
+            viewModel.selectNotificationsEnabled(isChecked)
+        }*/
+
+        /*binding.switchLocation.setOnCheckedChangeListener { _, isChecked ->
+            viewModel.selectLocationEnabled(isChecked)
+        }*/
+
+        // مراقبة القيم في ViewModel
+        viewModel.selectedLanguage.observe(viewLifecycleOwner) {
+            // تحديث واجهة المستخدم إذا لزم الأمر
+        }
+
+        viewModel.selectedTemperatureUnit.observe(viewLifecycleOwner) {
+            // تحديث واجهة المستخدم إذا لزم الأمر
+        }
+
+        viewModel.selectedWindUnit.observe(viewLifecycleOwner) {
+            // تحديث واجهة المستخدم إذا لزم الأمر
+        }
+        viewModel.locationEnabled.observe(viewLifecycleOwner) {
+
+        }
+
+        viewModel.notificationsEnabled.observe(viewLifecycleOwner) {
+
+        }
+
+    }
+
+    private fun toggleVisibility(view: View) {
+        view.visibility = if (view.visibility == View.VISIBLE) {
+            View.GONE
+        } else {
+            View.VISIBLE
+        }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        //_binding = null
     }
 }

@@ -43,12 +43,17 @@
 
             </LinearLayout>
 
-            <ImageView
-                android:id="@+id/mapImage"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                app:srcCompat="@drawable/ic_launcher_background" />
+            <com.airbnb.lottie.LottieAnimationView
+                android:id="@+id/mapAnimator"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                app:layout_constraintBottom_toTopOf="@+id/appTitle"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:lottie_rawRes="@raw/map1"
+                />
 
         </LinearLayout>
 
@@ -83,9 +88,9 @@
                     app:layout_constraintTop_toTopOf="parent">
 
                     <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        app:srcCompat="@drawable/ic_launcher_background" />
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        app:srcCompat="@drawable/day_sun" />
 
                     <TextView
                         android:id="@+id/weatherDesc"
@@ -117,18 +122,21 @@
                         android:id="@+id/temp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:textSize="40dp"
                         android:text="dkshkdfjkdj" />
 
                     <TextView
                         android:id="@+id/feelsLike"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:textSize="25dp"
                         android:text="dkshkdfjkdj" />
 
                     <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        app:srcCompat="@drawable/ic_launcher_background" />
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        android:layout_gravity="center"
+                        app:srcCompat="@drawable/day_sun" />
 
                 </LinearLayout>
 
