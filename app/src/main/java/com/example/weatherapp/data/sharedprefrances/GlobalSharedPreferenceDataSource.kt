@@ -15,4 +15,8 @@ interface GlobalSharedPreferenceDataSource {
 
     fun getWindSpeedUnit():String
     fun setWindSpeedUnit(string:String)
+    fun setNotificationsEnabled(string: String)
+    fun getNotificationsEnabled(): String
+    fun setLocationEnabled(string: String)
+    fun getLocationEnabled(): String
 }

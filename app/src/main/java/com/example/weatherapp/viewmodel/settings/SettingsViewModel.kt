@@ -23,22 +23,27 @@ class SettingsViewModel(private val repo: WeatherRepository) : ViewModel() {
 
     fun selectLanguage(language: String) {
         _selectedLanguage.value = language
+        repo.setLang(language)
     }
 
     fun selectTemperatureUnit(unit: String) {
         _selectedTemperatureUnit.value = unit
+        repo.setTempUnit(unit)
     }
 
     fun selectWindUnit(unit: String) {
         _selectedWindUnit.value = unit
+        repo.setWindSpeedUnit(unit)
     }
 
     fun selectNotificationsEnabled(enabled: String) {
         _notificationsEnabled.value = enabled
+        repo.setNotificationsEnabled(enabled)
     }
 
     fun selectLocationEnabled(location: String) {
         _locationEnabled.value = location
+        repo.setLocationEnabled(location)
     }
 }
 

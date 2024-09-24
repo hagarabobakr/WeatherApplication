@@ -80,6 +80,14 @@ class WeatherRepository (private var remoteDataSource: WeatherRemoteDataSource,
     override fun setWindSpeedUnit(string: String) {
         globalSharedPreferenceDataSource.setWindSpeedUnit(string)
     }
+    override fun setNotificationsEnabled(enabled: String) {
+        globalSharedPreferenceDataSource.setNotificationsEnabled(enabled)
+    }
+
+    override fun setLocationEnabled(location: String) {
+        globalSharedPreferenceDataSource.setLocationEnabled(location)
+    }
+
 
 
 }

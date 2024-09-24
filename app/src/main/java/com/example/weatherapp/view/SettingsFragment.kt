@@ -74,8 +74,8 @@ class SettingsFragment : Fragment() {
         //radioGroupLanguage
         binding.radioGroupLanguage.setOnCheckedChangeListener { _, checkedId ->
             val language = when (checkedId) {
-                binding.radioArabic.id -> "Arabic"
-                binding.radioEnglish.id -> "English"
+                binding.radioArabic.id -> "ar"
+                binding.radioEnglish.id -> "en"
                 else -> ""
             }
             viewModel.selectLanguage(language)
@@ -113,7 +113,7 @@ class SettingsFragment : Fragment() {
             viewModel.selectLocationEnabled(location)
         }
 
-        //radioGroupWind
+        //radioGroupNotifications
         binding.radioGroupNotifications.setOnCheckedChangeListener { _, checkedId ->
             val notifications = when (checkedId) {
                 binding.radioEnable.id -> "Enable"
