@@ -67,27 +67,6 @@ class HomeFragment : Fragment() {
         homeFactory = HomeFragmentViewModelFactory(repository)
         viewModel = ViewModelProvider(this, homeFactory).get(HomeFragmentViewModel::class.java)
 
-        viewModel.getCurrentWeather2(55.7522, 37.6156,"")
-        viewModel.getCurrentWeather(10.99,44.34)
-        viewModel.weather.observe(viewLifecycleOwner){ desc->
-            binding.weatherDesc.text = desc?.get(0)?.description
-          //  binding.cityName.text =
-        }
-        viewModel.weather2.observe(viewLifecycleOwner){w->
-            binding.cityName.text = w?.name
-            val dateInMillis = w?.dt?.times(1000) ?: 0 // Convert from seconds to milliseconds
-            val dateFormat = SimpleDateFormat("dd MMM yyyy", Locale.getDefault())
-            val formattedDate = dateFormat.format(Date(dateInMillis))
-            binding.date.text = formattedDate
-            val tempInCelsius = w?.main?.temp?.minus(273.15)
-            val feelsLikeInCelsius = w?.main?.feels_like?.minus(273.15)
-
-            binding.temp.text = tempInCelsius?.let { String.format(" %.2f°C", it) } ?: "Temperature: N/A"
-            binding.feelsLike.text = feelsLikeInCelsius?.let { String.format("Feels like: %.2f°C", it) } ?: "Feels like: N/A"
-        // binding.toNight.text = w?.
-
-
-            }
         binding.mapAnimator.setOnClickListener {
             findNavController().navigate(R.id.action_homeFragment2_to_mapFragment)
         }
