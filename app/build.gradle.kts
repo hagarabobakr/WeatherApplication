@@ -78,16 +78,17 @@ dependencies {
 //animation
     implementation ("com.airbnb.android:lottie:6.0.0")
 
-//google play services
-    implementation("com.google.android.gms:play-services-location:21.1.0")
+/// Google Play Services
+    //implementation("com.google.android.gms:play-services-location:21.1.0")
+    implementation("com.google.android.gms:play-services-location:18.0.0")
 //map
     implementation ("org.osmdroid:osmdroid-android:6.1.10")
     //ok http
     implementation ("com.squareup.okhttp3:okhttp:4.10.0")
     implementation ("com.squareup.okhttp3:logging-interceptor:4.10.0")
 
+
     //location
-    dependencies {
         implementation ("com.github.mumayank:AirLocation:2.5.2") // this line
-    }
+
 }
