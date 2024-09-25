@@ -28,12 +28,25 @@ class HomeFragmentViewModel (val repo : WeatherRepository) : ViewModel() {
 
 
     init {
-        getCurrentWeather(repo.getMapLat().toDouble(),repo.getMapLon().toDouble(),"en")
-        //getCurrentWeather(2.5,5.5,"ar")
-        getHourlyWeather(2.5,5.5,"en")
-        //getHourlyWeather(2.5,5.5,"ar")
-        getDailyWeather(25.5,55.5,"en")
-        //getDailyWeather(2.5,5.5,"ar")
+        fetchWeatherData()
+    }
+
+    private fun fetchWeatherData() {
+        val locationType = repo.getLocationEnabled()
+        val lat: Double
+        val lon: Double
+
+        if (locationType == "GPS") {
+            lat = repo.getGpsLat().toDouble()
+            lon = repo.getGpsLon().toDouble()
+        } else {
+            lat = repo.getMapLat().toDouble()
+            lon = repo.getMapLon().toDouble()
+        }
+
+        getCurrentWeather(lat, lon, repo.getLang())
+        getHourlyWeather(lat, lon, repo.getLang())
+        getDailyWeather(lat, lon, repo.getLang())
     }
     fun getCurrentWeather(lat: Double, lon: Double,lang : String) {
        Log.i(TAG, "getCurrentWeather: ")

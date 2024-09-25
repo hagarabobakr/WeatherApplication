@@ -76,7 +76,8 @@ class HomeFragment : Fragment() {
         // Call the setup method after initializing the ViewModel
         setUpCurrentWeatherObserver()
         binding.mapAnimator.setOnClickListener {
-            findNavController().navigate(R.id.action_homeFragment2_to_mapFragment)
+            //todo
+           // findNavController().navigate(R.id.action_homeFragment2_to_mapFragment)
         }
 
     }
