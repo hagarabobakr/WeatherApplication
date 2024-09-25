@@ -117,7 +117,12 @@ class HomeFragment : Fragment() {
                         binding.loadingIndicator.visibility = View.GONE
                         binding.feelsLike.text = state.data.body()?.main?.feelsLike.toString()
                         binding.cityName.text = state.data.body()?.name
-                        binding.date.text = state.data.body()?.dt.toString()
+                       // binding.date.text = state.data.body()?.dt.toString()
+                        //date after formating
+                        val dateInMillis =  state.data.body()?.dt?.times(1000) ?: 0 // Convert from seconds to milliseconds
+                        val dateFormat = SimpleDateFormat("dd MMM yyyy", Locale.getDefault())
+                        val formattedDate = dateFormat.format(Date(dateInMillis))
+                        binding.date.text = formattedDate
                         binding.temp.text = state.data.body()?.main?.temp.toString()
                         binding.weatherDesc.text = state.data.body()?.weather?.get(0)?.description
                         binding.pressureTxt.text = "${state.data.body()?.main?.pressure.toString()} hpa"
