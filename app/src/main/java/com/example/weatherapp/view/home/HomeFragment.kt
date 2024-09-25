@@ -120,6 +120,10 @@ class HomeFragment : Fragment() {
                         binding.date.text = state.data.body()?.dt.toString()
                         binding.temp.text = state.data.body()?.main?.temp.toString()
                         binding.weatherDesc.text = state.data.body()?.weather?.get(0)?.description
+                        binding.pressureTxt.text = "${state.data.body()?.main?.pressure.toString()} hpa"
+                        binding.humidityTxt.text = "${state.data.body()?.main?.humidity.toString()} %"
+                        binding.windTxt.text = "${state.data.body()?.wind?.speed .toString()}+ ${viewModel.repo.getWindSpeedUnit()}"
+                        binding.cloudTxt.text = "${state.data.body()?.clouds?.all.toString()} %"
                         Log.i(TAG, "setUpCurrentWeatherObserver: ${state.data.body()?.main?.feelsLike.toString()}")
                         Log.i(TAG, "setUpCurrentWeatherObserver name: ${state.data.body()?.name}")
                         Log.i(TAG, "setUpCurrentWeatherObserver: ${state.data.body()?.dt.toString()}")

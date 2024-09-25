@@ -31,5 +31,14 @@
     <string name="today">Today</string>
     <string name="next_seven_days">Next Seven days</string>
     <string name="confirmation">Confirmation</string>
+    <string name="location_text">Fetching your location...</string>
+    <string name="check_location">Unable to get location. Please check your settings.</string>
+    <string name="Invalid">Invalid location data.</string>
+    <string name="Location_Unknown">Location unknown.</string>
+    <string name="data_fetch">Data has been fetched.</string>
     <string name="are_you_sure_you_want_to_go_to_this_location">Are you sure you want to go to this location?</string>
+    <string name="cloud">Cloud</string>
+    <string name="wind">Wind</string>
+    <string name="pressure">Pressure</string>
+    <string name="humidity">Humidity</string>
 </resources>

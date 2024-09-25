@@ -11,7 +11,7 @@ import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
 
-class HomeFragmentViewModel (private val repo : WeatherRepository) : ViewModel() {
+class HomeFragmentViewModel (val repo : WeatherRepository) : ViewModel() {
     private val TAG = "HomeFragmentViewModel"
 
     //get current weather
@@ -28,7 +28,7 @@ class HomeFragmentViewModel (private val repo : WeatherRepository) : ViewModel()
 
 
     init {
-        getCurrentWeather(2.5,5.5,"en")
+        getCurrentWeather(repo.getMapLat().toDouble(),repo.getMapLon().toDouble(),"en")
         //getCurrentWeather(2.5,5.5,"ar")
         getHourlyWeather(2.5,5.5,"en")
         //getHourlyWeather(2.5,5.5,"ar")
