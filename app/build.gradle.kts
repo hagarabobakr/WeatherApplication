@@ -85,4 +85,9 @@ dependencies {
     //ok http
     implementation ("com.squareup.okhttp3:okhttp:4.10.0")
     implementation ("com.squareup.okhttp3:logging-interceptor:4.10.0")
+
+    //location
+    dependencies {
+        implementation ("com.github.mumayank:AirLocation:2.5.2") // this line
+    }
 }
