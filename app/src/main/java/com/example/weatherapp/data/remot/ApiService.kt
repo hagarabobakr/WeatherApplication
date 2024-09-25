@@ -2,6 +2,7 @@ package com.example.weatherapp.data.remot
 
 import com.example.weatherapp.data.model.CloudsResponse
 import com.example.weatherapp.data.model.CurrentWeatherResponse
+import com.example.weatherapp.data.model.ForecastResponse
 import com.example.weatherapp.data.model.MainResponse
 import com.example.weatherapp.data.model.Weather
 import com.example.weatherapp.data.model.WeatherResponse
@@ -15,14 +16,6 @@ import retrofit2.http.GET
 import retrofit2.http.Query
 
 interface ApiService {
-
-    @GET("weather")
-    suspend fun getCurrentWeatherBasic(
-        @Query("lat") latitude: Double,
-        @Query("lon") longitude: Double,
-        @Query("appid") apiKey: String
-    ): Response<CurrentWeatherResponse>
-
 
     @GET("weather")
     suspend fun getCurrentWeather(
@@ -40,7 +33,7 @@ interface ApiService {
         @Query("lang") lang: String,
         @Query("appid") apiKey: String,
         @Query("units") units: String
-    ): Response<Weather>
+    ): Response<ForecastResponse>
 
 
     @GET("forecast")

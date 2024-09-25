@@ -42,7 +42,7 @@ class WeatherRepository (private var remoteDataSource: WeatherRemoteDataSource,
         lat: Double,
         lon: Double,
         lang: String
-    ): Flow<Response<Weather>> {
+    ): Flow<Response<ForecastResponse>> {
         return remoteDataSource.fetchHourlyForecast(lat,lon,lang)
     }
 

@@ -7,7 +7,7 @@ interface IWeatherRepository {
     //Retrofit functions
    // suspend fun getCurrentWeatherBasic(lat: Double, lon: Double): List<Weather>?
     suspend fun fetchCurrentWeather(lat: Double, lon: Double,lang :String): Flow<Response<Weather>>
-    suspend fun fetchHourlyForecast(lat: Double, lon: Double,lang :String): Flow<Response<Weather>>
+    suspend fun fetchHourlyForecast(lat: Double, lon: Double,lang :String): Flow<Response<ForecastResponse>>
     suspend fun fetchDailyForecast(lat: Double, lon: Double,lang :String): Flow<Response<Weather>>
 
     //SharedPref functions
