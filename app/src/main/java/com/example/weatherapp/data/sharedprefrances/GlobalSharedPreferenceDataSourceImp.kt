@@ -10,6 +10,8 @@ class GlobalSharedPreferenceDataSourceImp(private val sharedPreferences: SharedP
     private val windSpeedUnitKey = "WIND_SPEED_UNIT"
     private val notificationsEnabledKey = "NOTIFICATIONS_ENABLED"
     private val locationEnabledKey = "LOCATION_ENABLED"
+    private val gpsLonKey = "GPS_LON"
+    private val gpsLatKey = "GPS_LAT"
 
     override fun getTempUnit(): String {
         return sharedPreferences.getString(tempUnitKey, "Celsius") ?: "Celsius"
@@ -33,6 +35,22 @@ class GlobalSharedPreferenceDataSourceImp(private val sharedPreferences: SharedP
 
     override fun setMapLat(string: String) {
         sharedPreferences.edit().putString(mapLatKey, string).apply()
+    }
+
+    override fun getGpsLon(): String {
+        return sharedPreferences.getString(gpsLonKey, "0.0") ?: "0.0"
+    }
+
+    override fun setGpsLon(string: String) {
+        sharedPreferences.edit().putString(gpsLonKey, string).apply()
+    }
+
+    override fun getGpsLat(): String {
+        return sharedPreferences.getString(gpsLatKey, "0.0") ?: "0.0"
+    }
+
+    override fun setGpsLat(string: String) {
+        sharedPreferences.edit().putString(gpsLatKey, string).apply()
     }
 
     override fun getLang(): String {

@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import com.example.weatherapp.R
 import com.example.weatherapp.data.local.WeatherLocalDataSource
 import com.example.weatherapp.data.model.WeatherRepository
@@ -84,9 +85,9 @@ class SettingsFragment : Fragment() {
         //radioGroupTemp
         binding.radioGroupTemp.setOnCheckedChangeListener { _, checkedId ->
             val unit = when (checkedId) {
-                binding.radioKelvin.id -> "Kelvin"
-                binding.radioCelsius.id -> "Celsius"
-                binding.radioFahrenheit.id -> "Fahrenheit"
+                binding.radioKelvin.id -> "K"
+                binding.radioCelsius.id -> "C"
+                binding.radioFahrenheit.id -> "F"
                 else -> ""
             }
             viewModel.selectTemperatureUnit(unit)
@@ -95,9 +96,9 @@ class SettingsFragment : Fragment() {
         //radioGroupWind
         binding.radioGroupWind.setOnCheckedChangeListener { _, checkedId ->
             val unit = when (checkedId) {
-                binding.radioMeterSec.id -> "Meter/Second"
-                binding.radioKmh.id -> "Km/Hour"
-                binding.radioMph.id -> "Miles/Hour"
+                binding.radioMeterSec.id -> "M/S"
+                binding.radioKmh.id -> "K/H"
+                binding.radioMph.id -> "M/H"
                 else -> ""
             }
             viewModel.selectWindUnit(unit)
@@ -106,8 +107,16 @@ class SettingsFragment : Fragment() {
         //radioGroupLocation
         binding.radioGroupLocation.setOnCheckedChangeListener { _, checkedId ->
             val location = when (checkedId) {
-                binding.radioMph.id -> "Map"
-                binding.radioGps.id -> "GPS"
+                binding.radioMap.id ->{
+                    viewModel.selectLocationEnabled("Map")
+                    performActionForMap()
+                    "Map"
+                }
+                binding.radioGps.id ->{
+                    viewModel.selectLocationEnabled("GPS")
+                    performActionForGPS()
+                    "GPS"
+                }
                 else -> ""
             }
             viewModel.selectLocationEnabled(location)
@@ -144,6 +153,14 @@ class SettingsFragment : Fragment() {
 
         }
 
+    }
+
+    private fun performActionForGPS() {
+
+    }
+
+    private fun performActionForMap() {
+        findNavController().navigate(R.id.action_settingsFragment2_to_mapFragment)
     }
 
     private fun toggleVisibility(view: View) {
