@@ -40,7 +40,7 @@
                         android:fontFamily="@font/yonoy"
                         android:textColor="@color/midnightBlack"
                         android:textSize="45sp"
-                        tools:text="london" />
+                        android:text="london" />
 
                     <TextView
                         android:id="@+id/date"
@@ -85,7 +85,6 @@
                         android:layout_margin="18dp"
                         android:orientation="vertical"
                         android:padding="8dp"
-                        app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toStartOf="@+id/linearLayout3"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent">
@@ -101,7 +100,7 @@
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/yonoy"
                             android:textColor="@color/white"
-                            android:textSize="35sp"
+                            android:textSize="25sp"
                             tools:text="london" />
 
                         <TextView
@@ -122,28 +121,30 @@
                         android:layout_margin="8dp"
                         android:orientation="vertical"
                         android:padding="8dp"
+                        app:layout_constraintBottom_toBottomOf="@+id/linearLayout2"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toEndOf="@+id/linearLayout2">
+                        app:layout_constraintStart_toEndOf="@+id/linearLayout2"
+                        app:layout_constraintTop_toTopOf="parent">
 
                         <TextView
                             android:id="@+id/temp"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:textSize="60dp"
-                            android:textColor="@color/white"
-                            android:fontFamily="@font/yonoy"
                             android:layout_gravity="center"
-                            android:text="27" />
+                            android:fontFamily="@font/yonoy"
+                            android:text="27"
+                            android:textColor="@color/white"
+                            android:textSize="60dp" />
 
                         <TextView
                             android:id="@+id/feelsLike"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:textSize="18dp"
-                            android:textColor="@color/white"
-                            android:fontFamily="@font/yonoy"
                             android:layout_gravity="center"
-                            android:text="feels like 32 " />
+                            android:fontFamily="@font/yonoy"
+                            android:textColor="@color/white"
+                            android:textSize="18dp"
+                            tools:text="feels like 32 " />
 
                         <ImageView
                             android:layout_width="100dp"
@@ -152,6 +153,15 @@
                             app:srcCompat="@drawable/day_sun" />
 
                     </LinearLayout>
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/recyclerView3"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/linearLayout2" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </androidx.cardview.widget.CardView>
@@ -201,7 +211,13 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textView2" />
-
+            <ProgressBar
+                android:id="@+id/loadingIndicator"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:visibility="gone"/>
         </androidx.constraintlayout.widget.ConstraintLayout>
+
     </ScrollView>
 </layout>

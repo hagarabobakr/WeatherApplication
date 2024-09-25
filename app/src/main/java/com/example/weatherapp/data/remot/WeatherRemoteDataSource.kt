@@ -3,6 +3,7 @@ package com.example.weatherapp.data.remot
 import android.util.Log
 import com.example.weatherapp.API_KEY
 import com.example.weatherapp.data.model.Clouds
+import com.example.weatherapp.data.model.ForecastResponse
 import com.example.weatherapp.data.model.Main
 import com.example.weatherapp.data.model.Weather
 import com.example.weatherapp.data.model.WeatherResponse
@@ -32,15 +33,15 @@ class WeatherRemoteDataSource : IWeatherRemoteDataSourceImp {
         }
     }
 
-    override suspend fun getCurrentWeatherBasic(lat: Double, lon: Double): List<Weather>? {
-        val response = WeatherService.getCurrentWeatherBasic(lat, lon, API_KEY)
-        return if (response.isSuccessful) {
-            response.body()?.weather
-        } else {
-            Log.i("TAG", "getCurrentWeatherBasic: onFailure")
-            null
-        }
-    }
+//    override suspend fun getCurrentWeatherBasic(lat: Double, lon: Double): List<Weather>? {
+//        val response = WeatherService.getCurrentWeatherBasic(lat, lon, API_KEY)
+//        return if (response.isSuccessful) {
+//            response.body()?.weather
+//        } else {
+//            Log.i("TAG", "getCurrentWeatherBasic: onFailure")
+//            null
+//        }
+//    }
 
     override suspend fun fetchCurrentWeather(lat: Double, lon: Double, lang: String):
             Flow<Response<Weather>> = flow {
@@ -55,7 +56,7 @@ class WeatherRemoteDataSource : IWeatherRemoteDataSourceImp {
         lat: Double,
         lon: Double,
         lang: String
-    ): Flow<Response<Weather>> = flow {
+    ): Flow<Response<ForecastResponse>> = flow {
         val response = WeatherService.getHourlyForecast(lat, lon, lang, API_KEY, units)
         if (response.isSuccessful && response.body() != null)
             emit(response)
