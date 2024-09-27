@@ -17,7 +17,8 @@ class WeatherRepository (private var remoteDataSource: WeatherRemoteDataSource,
     companion object{
         var instance : WeatherRepository ? = null
 
-        fun getInstance(remote : WeatherRemoteDataSource, local : WeatherLocalDataSource, shared: GlobalSharedPreferenceDataSourceImp) : WeatherRepository{
+        fun getInstance(remote : WeatherRemoteDataSource, local :
+        WeatherLocalDataSource, shared: GlobalSharedPreferenceDataSourceImp) : WeatherRepository{
             return instance?: synchronized(this){
                 val temp = WeatherRepository(remote,local,shared)
                 instance=temp
