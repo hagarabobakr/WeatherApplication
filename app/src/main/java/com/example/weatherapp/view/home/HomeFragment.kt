@@ -18,6 +18,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.airbnb.lottie.LottieAnimationView
 import com.example.weatherapp.R
+import com.example.weatherapp.data.local.AppDatabase
 import com.example.weatherapp.data.local.WeatherLocalDataSource
 import com.example.weatherapp.data.model.Weather
 import com.example.weatherapp.data.model.WeatherRepository
@@ -105,7 +106,8 @@ class HomeFragment : Fragment() {
     private fun setupViewModel() {
         val sharedPrefs = requireActivity().getSharedPreferences("MySharedPrefs", Context.MODE_PRIVATE)
         val remoteDataSource = WeatherRemoteDataSource()
-        val localDataSource = WeatherLocalDataSource()
+        val database = AppDatabase.getDatabase(requireContext())
+        val localDataSource = WeatherLocalDataSource(database.favoriteWeatherDao())
         val sharedPreferenceDataSourceImp = GlobalSharedPreferenceDataSourceImp(sharedPrefs)
         val repository = WeatherRepository.getInstance(remoteDataSource, localDataSource, sharedPreferenceDataSourceImp)
 
