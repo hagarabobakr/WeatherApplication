@@ -2,6 +2,9 @@
 
 package com.example.weatherapp.data.model
 
+import androidx.room.Entity
+
+@Entity(tableName = "weather")
 data class Weather (
     val visibility: Long,
     val timezone: Long,
@@ -17,16 +20,16 @@ data class Weather (
     val base: String,
     val wind: Wind
 )
-
+@Entity(tableName = "clouds")
 data class Clouds (
     val all: Long
 )
-
+@Entity(tableName = "coord")
 data class Coord (
     val lon: Double,
     val lat: Double
 )
-
+@Entity(tableName = "main")
 data class Main (
     val temp: Double,
     val tempMin: Double,
@@ -37,19 +40,19 @@ data class Main (
     val feelsLike: Double,
     val tempMax: Double
 )
-
+@Entity(tableName = "sys")
 data class Sys (
     val sunrise: Long,
     val sunset: Long
 )
-
+@Entity(tableName = "weather_element")
 data class WeatherElement (
     val icon: String,
     val description: String,
     val main: String,
     val id: Long
 )
-
+@Entity(tableName = "wind")
 data class Wind (
     val deg: Long,
     val speed: Double,

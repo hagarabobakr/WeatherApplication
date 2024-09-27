@@ -54,13 +54,6 @@ class WeatherRepository (private var remoteDataSource: WeatherRemoteDataSource,
         return remoteDataSource.fetchDailyForecast(lat,lon,lang)
     }
 
-    /*override suspend fun getCurrentWeatherBasic(lat: Double, lon: Double) : List<Weather>?{
-        return remoteDataSource.getCurrentWeatherBasic(lat,lon)
-    }*/
-
-
-
-
 //Shared functions
     override fun getTempUnit(): String {
         return globalSharedPreferenceDataSource.getTempUnit()

@@ -65,7 +65,7 @@ class MapFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+         super.onViewCreated(view, savedInstanceState)
 // Initialize the MapView
         mapView = binding.map
         mapView.setMultiTouchControls(true)

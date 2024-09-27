@@ -1,5 +1,8 @@
 package com.example.weatherapp.data.model
 
+import androidx.room.Entity
+
+@Entity(tableName = "forecast_response")
 data class ForecastResponse(
     val cod: String,
     val message: Long,
@@ -7,7 +10,7 @@ data class ForecastResponse(
     val list: List<WeatherForecast>,
     val city: City
 )
-
+@Entity(tableName = "weather_forecast")
 data class WeatherForecast(
     val dt: Long,
     val main: Main,
@@ -20,7 +23,7 @@ data class WeatherForecast(
     val dt_txt : String
 
 )
-
+@Entity(tableName = "city")
 data class City(
     val id: Long,
     val name: String,
