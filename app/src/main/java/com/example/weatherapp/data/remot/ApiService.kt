@@ -31,9 +31,9 @@ interface ApiService {
         @Query("lat") latitude: Double,
         @Query("lon") longitude: Double,
         @Query("lang") lang: String,
-        @Query("appid") apiKey: String,
-        @Query("units") units: String
-    ): Response<ForecastResponse>
+        @Query("units") units: String,
+        @Query("appid") apiKey: String
+    ): ForecastResponse
 
 
     @GET("forecast")

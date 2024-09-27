@@ -2,6 +2,7 @@ package com.example.weatherapp.view.home
 
 import android.content.Context
 import android.location.Geocoder
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -9,11 +10,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.airbnb.lottie.LottieAnimationView
 import com.example.weatherapp.R
 import com.example.weatherapp.data.local.WeatherLocalDataSource
 import com.example.weatherapp.data.model.Weather
@@ -38,6 +41,7 @@ class HomeFragment : Fragment() {
     private lateinit var homeFactory: HomeFragmentViewModelFactory
     private lateinit var hourlyWeatherAdapter: HourlyWeatherAdapter
     private lateinit var dailyWeatherAdapter: DailyWeatherAdapter
+    lateinit var mapAnimation : LottieAnimationView
     private  val TAG = "HomeFragment"
     /*private val remoteDataSource = WeatherRemoteDataSource()
     private val localDataSource = WeatherLocalDataSource()
@@ -66,9 +70,12 @@ class HomeFragment : Fragment() {
 
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        mapAnimation = binding.mapAnimator
+        mapAnimation.loop(true)
+        mapAnimation.playAnimation()
         setupRecyclerView()
         setupViewModel()
         setUpHourlyWeatherObserver()
@@ -76,8 +83,10 @@ class HomeFragment : Fragment() {
         // Call the setup method after initializing the ViewModel
         setUpCurrentWeatherObserver()
         binding.mapAnimator.setOnClickListener {
-            //todo
-           // findNavController().navigate(R.id.action_homeFragment2_to_mapFragment)
+            val bundle = Bundle().apply {
+                putString("sourceFragment", "HomeFragment")
+            }
+            findNavController().navigate(R.id.action_homeFragment2_to_mapFragment, bundle)
         }
 
     }
@@ -103,6 +112,7 @@ class HomeFragment : Fragment() {
         homeFactory = HomeFragmentViewModelFactory(repository)
         viewModel = ViewModelProvider(this, homeFactory).get(HomeFragmentViewModel::class.java)
     }
+    @RequiresApi(Build.VERSION_CODES.O)
     private fun setUpCurrentWeatherObserver(){
         Log.i(TAG, "setUpCurrentWeatherObserver: ")
         lifecycleScope.launch {
@@ -121,7 +131,7 @@ class HomeFragment : Fragment() {
                        // binding.date.text = state.data.body()?.dt.toString()
                         //date after formating
                         val dateInMillis =  state.data.body()?.dt?.times(1000) ?: 0 // Convert from seconds to milliseconds
-                        val dateFormat = SimpleDateFormat("dd MMM yyyy", Locale.getDefault())
+                        val dateFormat = SimpleDateFormat("dd MMM yyyy : mm:HH ", Locale.getDefault())
                         val formattedDate = dateFormat.format(Date(dateInMillis))
                         binding.date.text = formattedDate
                         binding.temp.text = state.data.body()?.main?.temp.toString()
@@ -156,6 +166,7 @@ class HomeFragment : Fragment() {
         binding.feelsLike.text = weather.main.feelsLike.toString()
 
     }
+    @RequiresApi(Build.VERSION_CODES.O)
     private fun setUpHourlyWeatherObserver() {
         lifecycleScope.launch {
             viewModel.hourlyWeatherStateFlow.collectLatest { state ->
@@ -166,8 +177,8 @@ class HomeFragment : Fragment() {
                     }
                     is ApiState.SuccessForecast -> {
                         //val hourlyWeather = state.data.body()?
-                        hourlyWeatherAdapter.submitList(state.data.body()?.list ?: emptyList())
-                        Log.i(TAG, "setUpHourlyWeatherObserver SuccessForecast: ${state.data.body()?.list ?: emptyList()}")
+                        hourlyWeatherAdapter.submitList(state.data.toList())
+                        Log.i(TAG, "setUpHourlyWeatherObserver SuccessForecast: ${state.data.size}")
                     }
                     is ApiState.Failure -> {
                         Toast.makeText(requireContext(), "Failed to load hourly weather", Toast.LENGTH_SHORT).show()
@@ -178,19 +189,21 @@ class HomeFragment : Fragment() {
             }
         }
     }
-
+    @RequiresApi(Build.VERSION_CODES.O)
     private fun setUpDailyWeatherObserver() {
         lifecycleScope.launch {
-            viewModel.dailyWeatherStateFlow .collectLatest { state ->
+            viewModel.dailyWeatherStateFlow.collectLatest { state ->
                 when (state) {
                     is ApiState.Loading -> {
                         // Optionally show a loading indicator for hourly weather
                         Log.i(TAG, "setUp Daily Weather Observer Loading weather...")
                     }
-                    is ApiState.SuccessCurrent -> {
+                    is ApiState.SuccessForecast -> {
                         //val hourlyWeather = state.data.body()?
-                        //dailyWeatherAdapter.submitList(state.data.body()?.weather?.toList())
-                        Log.i(TAG, "setUpHourlyWeatherObserver SuccessForecast: ${state.data.body()?.weather.toString()}")
+                        val dailyWeatherResponse = state.data.toList()
+                        val weatherData = dailyWeatherResponse
+                        dailyWeatherAdapter.submitList(weatherData)
+                       // Log.i(TAG, "setUpDailyWeatherObserver SuccessForecast: ${state.data.size}")
                     }
                     is ApiState.Failure -> {
                         Toast.makeText(requireContext(), "Failed to load hourly weather", Toast.LENGTH_SHORT).show()
