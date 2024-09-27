@@ -1,12 +1,7 @@
 package com.example.weatherapp.data.remot
 
-import com.example.weatherapp.data.model.Clouds
-import com.example.weatherapp.data.model.ForecastResponse
-import com.example.weatherapp.data.model.Main
 import com.example.weatherapp.data.model.Weather
 import com.example.weatherapp.data.model.WeatherForecast
-import com.example.weatherapp.data.model.WeatherResponse
-import com.example.weatherapp.data.model.Wind
 import kotlinx.coroutines.flow.Flow
 import retrofit2.Response
 

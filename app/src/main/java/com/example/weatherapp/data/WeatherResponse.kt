@@ -1,4 +1,11 @@
-package com.example.weatherapp.data.model
+package com.example.weatherapp.data
+
+import com.example.weatherapp.data.model.Clouds
+import com.example.weatherapp.data.model.Coord
+import com.example.weatherapp.data.model.Main
+import com.example.weatherapp.data.model.Sys
+import com.example.weatherapp.data.model.Weather
+import com.example.weatherapp.data.model.Wind
 
 data class WeatherResponse(
     val coord: Coord,
