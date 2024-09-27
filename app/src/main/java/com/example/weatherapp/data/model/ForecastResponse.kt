@@ -1,6 +1,8 @@
 package com.example.weatherapp.data.model
 
 import androidx.room.Entity
+import androidx.room.PrimaryKey
+import org.jetbrains.annotations.NotNull
 
 @Entity(tableName = "forecast_response")
 data class ForecastResponse(
@@ -12,6 +14,7 @@ data class ForecastResponse(
 )
 @Entity(tableName = "weather_forecast")
 data class WeatherForecast(
+    @PrimaryKey
     val dt: Long,
     val main: Main,
     val weather: List<WeatherElement>,
@@ -25,6 +28,7 @@ data class WeatherForecast(
 )
 @Entity(tableName = "city")
 data class City(
+    @PrimaryKey
     val id: Long,
     val name: String,
     val coord: Coord,

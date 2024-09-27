@@ -34,6 +34,7 @@ class HomeFragmentViewModel (val repo : WeatherRepository) : ViewModel() {
 
     init {
         fetchWeatherData()
+        testDatabase()
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
@@ -63,12 +64,26 @@ class HomeFragmentViewModel (val repo : WeatherRepository) : ViewModel() {
                 }.catch { e ->
                     _currentWeatherStateFlow.value = ApiState.Failure(e)
                 }.collect{weather->
+                    if (weather.isSuccessful) {
+                        weather.body()?.let { weather ->
+                            // إدخال البيانات في قاعدة البيانات
+                            repo.insertWeather(weather)
+                            Log.i(TAG, "Weather data inserted: ${weather.main.temp}")
+                        }
                     Log.i(TAG, "getCurrentWeather: ${weather.body()}")
                     _currentWeatherStateFlow.value = ApiState.SuccessCurrent(weather)
 
                 }
 
 
+        }
+    }
+    }
+    private fun testDatabase() {
+        viewModelScope.launch {
+            val retrievedWeather = repo.getAllWeather().collect { weatherList ->
+                Log.d("DatabaseTest", "Retrieved weather list: $weatherList")
+            }
         }
     }
 
