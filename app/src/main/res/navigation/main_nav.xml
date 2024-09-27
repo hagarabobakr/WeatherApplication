@@ -18,7 +18,11 @@
         android:id="@+id/favoriteFragment2"
         android:name="com.example.weatherapp.view.FavoriteFragment"
         android:label="fragment_favorite"
-        tools:layout="@layout/fragment_favorite" />
+        tools:layout="@layout/fragment_favorite" >
+        <action
+            android:id="@+id/action_favoriteFragment2_to_mapFragment"
+            app:destination="@id/mapFragment" />
+    </fragment>
     <fragment
         android:id="@+id/aleartFragment"
         android:name="com.example.weatherapp.view.AleartFragment"
@@ -31,7 +35,11 @@
         tools:layout="@layout/fragment_settings" >
         <action
             android:id="@+id/action_settingsFragment2_to_mapFragment"
-            app:destination="@id/mapFragment" />
+            app:destination="@id/mapFragment">
+            <argument
+                android:name="sourceFragment"
+                app:argType="string" />
+        </action>
     </fragment>
     <fragment
         android:id="@+id/mapFragment"

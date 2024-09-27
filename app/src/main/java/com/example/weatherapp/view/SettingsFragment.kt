@@ -160,7 +160,10 @@ class SettingsFragment : Fragment() {
     }
 
     private fun performActionForMap() {
-        findNavController().navigate(R.id.action_settingsFragment2_to_mapFragment)
+        val bundle = Bundle().apply {
+        putString("sourceFragment", "SettingsFragment")
+    }
+        findNavController().navigate(R.id.action_settingsFragment2_to_mapFragment, bundle)
     }
 
     private fun toggleVisibility(view: View) {

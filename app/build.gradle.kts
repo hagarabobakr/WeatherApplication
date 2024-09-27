@@ -2,6 +2,7 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     id ("kotlin-kapt")
+   // id("androidx.navigation.safeargs.kotlin") version "2.8.1"
 }
 
 android {
@@ -47,6 +48,8 @@ dependencies {
     implementation(libs.androidx.activity)
     implementation(libs.androidx.constraintlayout)
     testImplementation(libs.junit)
+    implementation(libs.androidx.navigation.fragment.ktx)
+    implementation(libs.androidx.navigation.ui.ktx)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
     //Retrofit
@@ -69,9 +72,10 @@ dependencies {
     implementation ("androidx.lifecycle:lifecycle-viewmodel-ktx:2.4.1")
     implementation ("com.airbnb.android:lottie:6.0.0")
     //navigation componant
-    implementation ("androidx.navigation:navigation-fragment:2.8.1")
-    implementation ("androidx.navigation:navigation-ui:2.5.3")
-
+//    implementation ("androidx.navigation:navigation-fragment:2.8.1")
+//    implementation ("androidx.navigation:navigation-ui:2.5.3")
+// Safe Args
+   // implementation("androidx.navigation:navigation-safe-args-gradle-plugin:2.8.1")
 //rounded avatar
     implementation ("de.hdodenhof:circleimageview:3.1.0")
 

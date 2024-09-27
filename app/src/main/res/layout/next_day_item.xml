@@ -48,7 +48,7 @@
                         android:gravity="center"
                         android:fontFamily="@font/yonoy"
                         android:textSize="24sp"
-                        tools:text="los angeles" />
+                        tools:text="SUNDAY" />
 
                     <TextView
                         android:id="@+id/date"
@@ -68,7 +68,7 @@
                     android:layout_gravity="center"
                     android:layout_weight="1"
                     android:fontFamily="@font/yonoy"
-                    android:textSize="40sp"
+                    android:textSize="35sp"
                     android:textColor="@color/lavenderDreams"
                     tools:text="27" />
             </LinearLayout>

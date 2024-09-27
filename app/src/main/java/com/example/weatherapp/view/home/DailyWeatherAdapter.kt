@@ -1,34 +1,47 @@
 package com.example.weatherapp.view.home
 
 import android.icu.text.SimpleDateFormat
+import android.os.Build
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.bumptech.glide.Glide
 import com.example.weatherapp.data.model.Weather
+import com.example.weatherapp.data.model.WeatherForecast
 import com.example.weatherapp.databinding.NextDayItemBinding
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 import java.util.Date
 import java.util.Locale
 
-class DailyWeatherAdapter():ListAdapter<Weather,DailyWeatherAdapter.DailyWeatherViewHolder>(DailyWeatherDiffCallback()){
+class DailyWeatherAdapter:ListAdapter<WeatherForecast,DailyWeatherAdapter.DailyWeatherViewHolder>(DailyWeatherDiffCallback()){
 
 
     class DailyWeatherViewHolder(private val binding: NextDayItemBinding): RecyclerView.ViewHolder(binding.root){
-        fun bind(weather: Weather){
-            binding.townName.text = weather.name
-            binding.date.text = formatTime(weather.dt)
+        @RequiresApi(Build.VERSION_CODES.O)
+        fun bind(weather: WeatherForecast) {
+            // Convert dt_txt to LocalDateTime
+            val dateTime = LocalDateTime.parse(weather.dt_txt, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))
+
+            // Get the name of the day
+            val dayOfWeek = dateTime.dayOfWeek.name.toLowerCase(Locale.getDefault()).capitalize()
+            binding.townName.text = dayOfWeek // Set the day name
+
+            // Get a formatted date
+            val dateFormatter = DateTimeFormatter.ofPattern("dd MMM yyyy", Locale.getDefault())
+            binding.date.text = dateTime.format(dateFormatter) // Set the formatted date (day/month/year)
+
+            // Set the temperature
             binding.temp.text = weather.main.temp.toString()
+
+            // Load weather icon
             Glide.with(binding.tempImg.context)
                 .load("https://openweathermap.org/img/wn/${weather.weather[0].icon}.png")
                 .into(binding.tempImg)
-
-        }
-        private fun formatTime(timestamp: Long): String {
-            val sdf = SimpleDateFormat("HH:mm", Locale.getDefault())
-            return sdf.format(Date(timestamp * 1000))
         }
     }
 
@@ -37,6 +50,7 @@ class DailyWeatherAdapter():ListAdapter<Weather,DailyWeatherAdapter.DailyWeather
         return DailyWeatherViewHolder(binding)
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onBindViewHolder(holder: DailyWeatherViewHolder, position: Int) {
         holder.bind(getItem(position))
     }
@@ -45,13 +59,13 @@ class DailyWeatherAdapter():ListAdapter<Weather,DailyWeatherAdapter.DailyWeather
 
 
 
-class DailyWeatherDiffCallback : DiffUtil.ItemCallback<Weather>() {
+class DailyWeatherDiffCallback : DiffUtil.ItemCallback<WeatherForecast>() {
 
-    override fun areItemsTheSame(oldItem: Weather, newItem: Weather): Boolean {
-        return oldItem.id == newItem.id
+    override fun areItemsTheSame(oldItem: WeatherForecast, newItem: WeatherForecast): Boolean {
+        return oldItem.dt == newItem.dt
     }
 
-    override fun areContentsTheSame(oldItem: Weather, newItem: Weather): Boolean {
+    override fun areContentsTheSame(oldItem: WeatherForecast, newItem: WeatherForecast): Boolean {
         return oldItem == newItem
     }
 }

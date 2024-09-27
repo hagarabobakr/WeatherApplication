@@ -12,6 +12,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import com.example.weatherapp.R
 import com.example.weatherapp.data.local.WeatherLocalDataSource
 import com.example.weatherapp.data.model.WeatherRepository
@@ -65,15 +66,28 @@ class MapFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        // Initialize osmdroid configuration
-        Configuration.getInstance().load(requireContext(), requireContext().getSharedPreferences("osmdroid", 0))
-
-        // Initialize the MapView
+// Initialize the MapView
         mapView = binding.map
         mapView.setMultiTouchControls(true)
         mapView.controller.setZoom(8.0)
-        addMapClickListener()
+        val sourceFragment = arguments?.getString("sourceFragment")
+
+        when (sourceFragment) {
+            "SettingsFragment" -> {
+                addMapClickListener()
+            }
+            "HomeFragment" -> {
+                // إجراء معين عند الانتقال من HomeFragment
+            }
+            "FavoriteFragment" -> {
+                // إجراء معين عند الانتقال من FavoriteFragment
+            }
+        }
+        // Initialize osmdroid configuration
+        Configuration.getInstance().load(requireContext(), requireContext().getSharedPreferences("osmdroid", 0))
+
+
+        //addMapClickListener()
     }
     private fun addMapClickListener() {
         val mapEventsReceiver = object : MapEventsReceiver {
@@ -133,7 +147,7 @@ class MapFragment : Fragment() {
         val noButton: Button = dialogView.findViewById(R.id.button_no)
 
         titleView.text = "Confirmation"
-        messageView.text = "Are you sure you want to go to this location?\nLat: $lat\nLon: $lon"
+        messageView.text = "Are you sure you want to go to this location?"
 
         val dialog = builder.create()
 
