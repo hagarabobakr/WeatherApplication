@@ -54,10 +54,19 @@ class WeatherRepository (private var remoteDataSource: WeatherRemoteDataSource,
         return remoteDataSource.fetchDailyForecast(lat,lon,lang)
     }
 
-    /*override suspend fun getCurrentWeatherBasic(lat: Double, lon: Double) : List<Weather>?{
-        return remoteDataSource.getCurrentWeatherBasic(lat,lon)
-    }*/
 
+    // Room functions
+    override suspend fun addFavoriteWeather(favoriteWeather: FavoriteWeather) {
+        localDataSource.addFavoriteWeather(favoriteWeather)
+    }
+
+    override fun getAllFavorites(): Flow<List<FavoriteWeather>> {
+        return localDataSource.getAllFavorites()
+    }
+
+    override suspend fun deleteFavoriteWeather(weather: FavoriteWeather) {
+        localDataSource.deleteFavorite(weather)
+    }
 
 
 

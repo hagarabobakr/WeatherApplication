@@ -1,17 +1,8 @@
 package com.example.weatherapp.data.remot
 
-import com.example.weatherapp.data.model.CloudsResponse
-import com.example.weatherapp.data.model.CurrentWeatherResponse
 import com.example.weatherapp.data.model.ForecastResponse
-import com.example.weatherapp.data.model.MainResponse
 import com.example.weatherapp.data.model.Weather
-import com.example.weatherapp.data.model.WeatherResponse
-import com.example.weatherapp.data.model.WindResponse
-import okhttp3.OkHttpClient
-import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Response
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.GET
 import retrofit2.http.Query
 

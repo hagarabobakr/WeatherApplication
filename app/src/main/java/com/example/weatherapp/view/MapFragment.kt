@@ -14,6 +14,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.example.weatherapp.R
+import com.example.weatherapp.data.local.AppDatabase
 import com.example.weatherapp.data.local.WeatherLocalDataSource
 import com.example.weatherapp.data.model.WeatherRepository
 import com.example.weatherapp.data.remot.WeatherRemoteDataSource
@@ -36,8 +37,9 @@ class MapFragment : Fragment() {
     private lateinit var mapView: MapView
     private lateinit var viewModel: MapViewModel
     // DataSources and Repository initialization
+    val database = AppDatabase.getDatabase(requireContext())
     private val remoteDataSource = WeatherRemoteDataSource()
-    private val localDataSource = WeatherLocalDataSource()
+    private val localDataSource = WeatherLocalDataSource(database.favoriteWeatherDao())
     private lateinit var sharedPreferenceDataSourceImp: GlobalSharedPreferenceDataSourceImp
     private lateinit var repository: WeatherRepository
 

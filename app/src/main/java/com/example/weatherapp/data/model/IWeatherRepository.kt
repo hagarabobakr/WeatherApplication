@@ -10,6 +10,12 @@ interface IWeatherRepository {
     suspend fun fetchHourlyForecast(lat: Double, lon: Double,lang :String): Flow<List<WeatherForecast>>
     suspend fun fetchDailyForecast(lat: Double, lon: Double,lang :String): Flow<Response<Weather>>
 
+    // Room functions
+    suspend fun addFavoriteWeather(favoriteWeather: FavoriteWeather)
+    fun getAllFavorites(): Flow<List<FavoriteWeather>>
+    suspend fun deleteFavoriteWeather(weather: FavoriteWeather)
+
+
     //SharedPref functions
 
     fun getTempUnit():String
