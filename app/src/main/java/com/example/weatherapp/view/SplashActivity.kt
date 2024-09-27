@@ -12,11 +12,13 @@ import android.util.Log
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.ViewModelProvider
 import com.airbnb.lottie.LottieAnimationView
 import com.example.weatherapp.R
+import com.example.weatherapp.data.local.AppDatabase
 import com.example.weatherapp.data.local.WeatherLocalDataSource
 import com.example.weatherapp.data.model.WeatherRepository
 import com.example.weatherapp.data.remot.WeatherRemoteDataSource
@@ -101,7 +103,8 @@ class SplashActivity : AppCompatActivity(), AirLocation.Callback  {
     private fun setupViewModel() {
         val sharedPrefs = getSharedPreferences("MySharedPrefs", Context.MODE_PRIVATE)
         val remoteDataSource = WeatherRemoteDataSource()
-        val localDataSource = WeatherLocalDataSource()
+        val database = AppDatabase.getDatabase(this)
+        val localDataSource = WeatherLocalDataSource(database.favoriteWeatherDao())
         val sharedPreferenceDataSourceImp = GlobalSharedPreferenceDataSourceImp(sharedPrefs)
         val repository = WeatherRepository.getInstance(remoteDataSource, localDataSource, sharedPreferenceDataSourceImp)
         val splashViewModelFactory = SplashViewModelFactory(repository)

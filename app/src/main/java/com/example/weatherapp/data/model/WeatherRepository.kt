@@ -64,8 +64,8 @@ class WeatherRepository (private var remoteDataSource: WeatherRemoteDataSource,
         return localDataSource.getAllFavorites()
     }
 
-    override suspend fun deleteFavoriteWeather(name: String) {
-        localDataSource.deleteFavorite(name)
+    override suspend fun deleteFavoriteWeather(weather: FavoriteWeather) {
+        localDataSource.deleteFavorite(weather)
     }
 
 

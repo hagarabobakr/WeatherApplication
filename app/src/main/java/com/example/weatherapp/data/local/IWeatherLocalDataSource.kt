@@ -7,5 +7,5 @@ interface IWeatherLocalDataSource {
     suspend fun addFavoriteWeather(favoriteWeather: FavoriteWeather)
     fun getAllFavorites(): Flow<List<FavoriteWeather>>
 
-    suspend fun deleteFavorite(name: String)
+    suspend fun deleteFavorite(weather: FavoriteWeather)
 }

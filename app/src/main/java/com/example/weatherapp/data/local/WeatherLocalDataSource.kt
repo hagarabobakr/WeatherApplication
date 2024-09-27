@@ -14,7 +14,7 @@ class WeatherLocalDataSource(private val favoriteWeatherDao: FavoriteWeatherDao)
         return favoriteWeatherDao.getAllFavorites()
     }
 
-    override suspend fun deleteFavorite(name: String) {
-        favoriteWeatherDao.deleteFavorite(name)
+    override suspend fun deleteFavorite(weather: FavoriteWeather) {
+        favoriteWeatherDao.deleteFavorite(weather)
     }
 }

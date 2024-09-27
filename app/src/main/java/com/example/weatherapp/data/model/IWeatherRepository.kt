@@ -13,7 +13,7 @@ interface IWeatherRepository {
     // Room functions
     suspend fun addFavoriteWeather(favoriteWeather: FavoriteWeather)
     fun getAllFavorites(): Flow<List<FavoriteWeather>>
-    suspend fun deleteFavoriteWeather(name: String)
+    suspend fun deleteFavoriteWeather(weather: FavoriteWeather)
 
 
     //SharedPref functions
