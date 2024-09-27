@@ -54,6 +54,41 @@ class WeatherRepository (private var remoteDataSource: WeatherRemoteDataSource,
         return remoteDataSource.fetchDailyForecast(lat,lon,lang)
     }
 
+
+
+    // Local DataSource functions
+    override suspend fun insertWeather(weather: Weather) {
+        localDataSource.insertWeather(weather)
+    }
+
+    override suspend fun getWeatherById(weatherId: Long): Weather? {
+        return localDataSource.getWeatherById(weatherId)
+    }
+
+    override fun getAllWeather(): Flow<List<Weather>> {
+        return localDataSource.getAllWeather()
+    }
+
+    override suspend fun insertWeatherForecast(forecast: WeatherForecast) {
+        localDataSource.insertWeatherForecast(forecast)
+    }
+
+    override suspend fun getForecastByDate(forecastDate: Long): WeatherForecast? {
+        return localDataSource.getForecastByDate(forecastDate)
+    }
+
+    override fun getAllWeatherForecast(): Flow<List<WeatherForecast>> {
+        return localDataSource.getAllWeatherForecast()
+    }
+
+    override suspend fun deleteAllWeather() {
+        localDataSource.deleteAllWeather()
+    }
+
+    override suspend fun deleteAllWeatherForecast() {
+        localDataSource.deleteAllWeatherForecast()
+    }
+
 //Shared functions
     override fun getTempUnit(): String {
         return globalSharedPreferenceDataSource.getTempUnit()

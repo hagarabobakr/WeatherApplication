@@ -10,8 +10,20 @@ interface IWeatherRepository {
     suspend fun fetchHourlyForecast(lat: Double, lon: Double,lang :String): Flow<List<WeatherForecast>>
     suspend fun fetchDailyForecast(lat: Double, lon: Double,lang :String): Flow<Response<Weather>>
 
-    //SharedPref functions
+    // Local DataSource functions
+    suspend fun insertWeather(weather: Weather)
+    suspend fun getWeatherById(weatherId: Long): Weather?
+    fun getAllWeather(): Flow<List<Weather>>
+    suspend fun insertWeatherForecast(forecast: WeatherForecast)
+    suspend fun getForecastByDate(forecastDate: Long): WeatherForecast?
+    fun getAllWeatherForecast(): Flow<List<WeatherForecast>>
+    suspend fun deleteAllWeather()
+    suspend fun deleteAllWeatherForecast()
 
+
+
+
+    //SharedPref functions
     fun getTempUnit():String
     fun setTempUnit(string:String)
 //map
