@@ -102,6 +102,22 @@ class WeatherRepository (private var remoteDataSource: WeatherRemoteDataSource,
         globalSharedPreferenceDataSource.setGpsLat(string)
     }
 
+    override fun getFavLon(): String {
+      return  globalSharedPreferenceDataSource.getFavLon()
+    }
+
+    override fun setFavLon(string: String) {
+        globalSharedPreferenceDataSource.setFavLon(string)
+    }
+
+    override fun getFavLat(): String {
+        return globalSharedPreferenceDataSource.getFavLat()
+    }
+
+    override fun setFavLat(string: String) {
+        globalSharedPreferenceDataSource.setFavLat(string)
+    }
+
     override fun getLang(): String {
         return globalSharedPreferenceDataSource.getLang()
     }
