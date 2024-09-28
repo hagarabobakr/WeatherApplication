@@ -41,4 +41,5 @@
     <string name="wind">Wind</string>
     <string name="pressure">Pressure</string>
     <string name="humidity">Humidity</string>
+    <string name="your_favorite_places">Your favorite places</string>
 </resources>

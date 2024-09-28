@@ -43,14 +43,7 @@ class SettingsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        val sharedPrefs = requireActivity().getSharedPreferences("MySharedPrefs", Context.MODE_PRIVATE)
-        val remoteDataSource = WeatherRemoteDataSource()
-        val localDataSource = WeatherLocalDataSource()
-        val sharedPreferenceDataSourceImp = GlobalSharedPreferenceDataSourceImp(sharedPrefs)
-        val repository = WeatherRepository.getInstance(remoteDataSource, localDataSource, sharedPreferenceDataSourceImp)
-        settingsFactory = SettingsViewModelFactory(repository)
-        viewModel = ViewModelProvider(this, settingsFactory).get(SettingsViewModel::class.java)
+        setupViewModel()
         setInitialValues()
         binding.arrowLanguageIcon.setOnClickListener {
             toggleVisibility(binding.expandableLanguage)
@@ -153,6 +146,16 @@ class SettingsFragment : Fragment() {
 
         }
 
+    }
+
+    private fun setupViewModel() {
+        val sharedPrefs = requireActivity().getSharedPreferences("MySharedPrefs", Context.MODE_PRIVATE)
+        val remoteDataSource = WeatherRemoteDataSource()
+        val localDataSource = WeatherLocalDataSource()
+        val sharedPreferenceDataSourceImp = GlobalSharedPreferenceDataSourceImp(sharedPrefs)
+        val repository = WeatherRepository.getInstance(remoteDataSource, localDataSource, sharedPreferenceDataSourceImp)
+        settingsFactory = SettingsViewModelFactory(repository)
+        viewModel = ViewModelProvider(this, settingsFactory).get(SettingsViewModel::class.java)
     }
 
     private fun performActionForGPS() {
