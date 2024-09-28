@@ -8,4 +8,8 @@ class MapViewModel (private val repo: WeatherRepository):ViewModel(){
         repo.setMapLat(lat.toString())
         repo.setMapLon(lon.toString())
     }
+    fun saveFavLocation(lat: Double, lon: Double) {
+        repo.setMapLat(lat.toString())
+        repo.setMapLon(lon.toString())
+    }
 }

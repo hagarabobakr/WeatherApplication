@@ -16,6 +16,12 @@ interface GlobalSharedPreferenceDataSource {
 
     fun getGpsLat():String
     fun setGpsLat(string:String)
+//fav
+    fun getFavLon():String
+    fun setFavLon(string:String)
+
+    fun getFavLat():String
+    fun setFavLat(string:String)
 
 //lang
     fun getLang():String

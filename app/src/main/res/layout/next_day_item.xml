@@ -16,7 +16,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintEnd_toEndOf="parent"
-            app:cardCornerRadius="50dp"
+            app:cardCornerRadius="20dp"
             app:cardUseCompatPadding="true"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
@@ -69,7 +69,7 @@
                     android:layout_weight="1"
                     android:fontFamily="@font/yonoy"
                     android:textSize="35sp"
-                    android:textColor="@color/lavenderDreams"
+                    android:textColor="@color/oceanBreeze"
                     tools:text="27" />
             </LinearLayout>
         </androidx.cardview.widget.CardView>
