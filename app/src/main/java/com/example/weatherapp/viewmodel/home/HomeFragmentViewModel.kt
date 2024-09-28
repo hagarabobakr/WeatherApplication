@@ -5,6 +5,7 @@ import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.weatherapp.data.model.FavoriteWeather
 import com.example.weatherapp.data.model.WeatherRepository
 import com.example.weatherapp.data.remot.ApiState
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -34,6 +35,7 @@ class HomeFragmentViewModel (val repo : WeatherRepository) : ViewModel() {
 
     init {
         fetchWeatherData()
+        getFavorites()
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
@@ -64,6 +66,18 @@ class HomeFragmentViewModel (val repo : WeatherRepository) : ViewModel() {
                     _currentWeatherStateFlow.value = ApiState.Failure(e)
                 }.collect{weather->
                     Log.i(TAG, "getCurrentWeather: ${weather.body()}")
+
+                    val favoriteWeather = FavoriteWeather(
+                        name = weather.body()?.name?:" ",
+                        lon = weather.body()?.coord?.lon,
+                        lat = weather.body()?.coord?.lat,
+                        description = weather.body()?.weather?.firstOrNull()?.description ?: "",
+                        unite = repo.getTempUnit(), // استرجاع وحدة الحرارة من Shared Preferences
+                        country = weather.body()?.main?.feelsLike.toString(),
+                        lang = lang // استخدم اللغة التي تم تمريرها
+                    )
+                    repo.addFavoriteWeather(favoriteWeather)
+                    Log.i(TAG, "Added to favorites: $favoriteWeather")
                     _currentWeatherStateFlow.value = ApiState.SuccessCurrent(weather)
 
                 }
@@ -138,6 +152,13 @@ class HomeFragmentViewModel (val repo : WeatherRepository) : ViewModel() {
 
         // Check if the time is exactly 00:00:00
         return dateTime.toLocalTime().toString() == "00:00"
+    }
+    fun getFavorites() {
+        viewModelScope.launch {
+            repo.getAllFavorites().collect { favorites ->
+                Log.i(TAG, "Favorites from database: $favorites") // Log لعرض المفضلين
+            }
+        }
     }
 
     }
