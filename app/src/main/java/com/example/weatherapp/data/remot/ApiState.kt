@@ -1,5 +1,6 @@
 package com.example.weatherapp.data.remot
 
+import com.example.weatherapp.data.model.FavoriteWeather
 import com.example.weatherapp.data.model.Weather
 import com.example.weatherapp.data.model.WeatherForecast
 import retrofit2.Response

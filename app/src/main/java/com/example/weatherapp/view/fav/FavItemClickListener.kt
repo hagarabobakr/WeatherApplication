@@ -1,4 +1,4 @@
 package com.example.weatherapp.view.fav
 
-class FavItemClickListener {
+interface FavItemClickListener {
 }
