@@ -1,6 +1,10 @@
 package com.example.weatherapp.data.sharedprefrances
 
 interface GlobalSharedPreferenceDataSource {
+//unit
+    fun getUnit():String
+    fun setUnit(string:String)
+//temp
     fun getTempUnit():String
     fun setTempUnit(string:String)
 //map
