@@ -164,7 +164,8 @@ class SettingsFragment : Fragment() {
     private fun setupViewModel() {
         val sharedPrefs = requireActivity().getSharedPreferences("MySharedPrefs", Context.MODE_PRIVATE)
         val remoteDataSource = WeatherRemoteDataSource()
-        val localDataSource = WeatherLocalDataSource()
+        val database = AppDatabase.getDatabase(requireContext())
+        val localDataSource = WeatherLocalDataSource(database.favoriteWeatherDao())
         val sharedPreferenceDataSourceImp = GlobalSharedPreferenceDataSourceImp(sharedPrefs)
         val repository = WeatherRepository.getInstance(remoteDataSource, localDataSource, sharedPreferenceDataSourceImp)
         settingsFactory = SettingsViewModelFactory(repository)

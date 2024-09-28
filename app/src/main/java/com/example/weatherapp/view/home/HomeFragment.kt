@@ -151,7 +151,7 @@ class HomeFragment : Fragment() {
                         binding.loadingIndicator.visibility = View.GONE
                         Toast.makeText(
                             requireContext(),
-                            "Failed to load products, please try again",
+                            "Failed to load weather, please try again",
                             Toast.LENGTH_SHORT
                         ).show()
                         Log.e(TAG, "Error loading: ${state.msg}")

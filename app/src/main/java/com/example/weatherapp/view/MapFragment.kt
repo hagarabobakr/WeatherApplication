@@ -36,25 +36,11 @@ class MapFragment : Fragment() {
     private lateinit var binding: FragmentMapBinding
     private lateinit var mapView: MapView
     private lateinit var viewModel: MapViewModel
-    // DataSources and Repository initialization
-    val database = AppDatabase.getDatabase(requireContext())
-    private val remoteDataSource = WeatherRemoteDataSource()
-    private val localDataSource = WeatherLocalDataSource(database.favoriteWeatherDao())
-    private lateinit var sharedPreferenceDataSourceImp: GlobalSharedPreferenceDataSourceImp
     private lateinit var repository: WeatherRepository
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        // Initialize SharedPreferences and Repository
-        sharedPreferenceDataSourceImp = GlobalSharedPreferenceDataSourceImp(
-            requireActivity().getSharedPreferences("MySharedPrefs", Context.MODE_PRIVATE)
-        )
-        repository = WeatherRepository.getInstance(remoteDataSource, localDataSource, sharedPreferenceDataSourceImp)
-
-        // Initialize ViewModel
-        val factory = MapViewModelFactory(repository)
-        viewModel = ViewModelProvider(this, factory).get(MapViewModel::class.java)
     }
 
     override fun onCreateView(
@@ -69,27 +55,40 @@ class MapFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 // Initialize the MapView
+        initializeViewModel() // Initialize ViewModel here
+        setupMapView() // Set up the map
+        setupMapClickListener() // Set up click listener based on source fragment
+    }
+    private fun initializeViewModel() {
+        // Initialize SharedPreferences and Repository
+        val database = AppDatabase.getDatabase(requireContext())
+        val remoteDataSource = WeatherRemoteDataSource()
+        val localDataSource = WeatherLocalDataSource(database.favoriteWeatherDao())
+        val sharedPreferenceDataSourceImp = GlobalSharedPreferenceDataSourceImp(
+            requireActivity().getSharedPreferences("MySharedPrefs", Context.MODE_PRIVATE)
+        )
+        repository = WeatherRepository.getInstance(remoteDataSource, localDataSource, sharedPreferenceDataSourceImp)
+
+        // Initialize ViewModel
+        val factory = MapViewModelFactory(repository)
+        viewModel = ViewModelProvider(this, factory).get(MapViewModel::class.java)
+    }
+
+    private fun setupMapView() {
         mapView = binding.map
         mapView.setMultiTouchControls(true)
         mapView.controller.setZoom(8.0)
+
+        // Initialize osmdroid configuration
+        Configuration.getInstance().load(requireContext(), requireContext().getSharedPreferences("osmdroid", 0))
+    }
+    private fun setupMapClickListener() {
         val sourceFragment = arguments?.getString("sourceFragment")
 
         when (sourceFragment) {
-            "SettingsFragment" -> {
-                addMapClickListener()
-            }
-            "HomeFragment" -> {
-                // إجراء معين عند الانتقال من HomeFragment
-            }
-            "FavoriteFragment" -> {
-                // إجراء معين عند الانتقال من FavoriteFragment
-            }
+            "SettingsFragment" -> addMapClickListener()
+            "HomeFragment", "FavoriteFragment" -> addMapClickListenerForFavorites()
         }
-        // Initialize osmdroid configuration
-        Configuration.getInstance().load(requireContext(), requireContext().getSharedPreferences("osmdroid", 0))
-
-
-        //addMapClickListener()
     }
     private fun addMapClickListener() {
         val mapEventsReceiver = object : MapEventsReceiver {
@@ -97,10 +96,47 @@ class MapFragment : Fragment() {
                 p?.let {
                     val lat = it.latitude
                     val lon = it.longitude
-                    showConfirmationDialog(lat, lon)
-//                    addMarker(it)
-//                    viewModel.saveLocation(lat, lon) // Save location using ViewModel
-//                    findNavController().navigate(R.id.action_mapFragment_to_homeFragment2)
+                    showCustomDialog(
+                        title = "Confirmation",
+                        message = "Are you sure you want to go to this location?",
+                        positiveButtonText = "Yes",
+                        negativeButtonText = "No",
+                        onPositiveClick = {
+                            addMarker(GeoPoint(lat, lon))
+                            viewModel.saveLocation(lat, lon) // Save location using ViewModel
+                            findNavController().navigate(R.id.action_mapFragment_to_homeFragment2)
+                        }
+                    )
+                }
+                return true
+            }
+
+            override fun longPressHelper(p: GeoPoint?): Boolean {
+                return false
+            }
+        }
+
+        val overlayEvents = MapEventsOverlay(mapEventsReceiver)
+        mapView.overlays.add(overlayEvents)
+    }
+
+    private fun addMapClickListenerForFavorites() {
+        val mapEventsReceiver = object : MapEventsReceiver {
+            override fun singleTapConfirmedHelper(p: GeoPoint?): Boolean {
+                p?.let {
+                    val lat = it.latitude
+                    val lon = it.longitude
+                    showCustomDialog(
+                        title = "Confirmation",
+                        message = "Are you sure you want to add this location to your favorites?",
+                        positiveButtonText = "Yes",
+                        negativeButtonText = "No",
+                        onPositiveClick = {
+                            viewModel.saveFavLocation(lat, lon) // Save favorite location using ViewModel
+                            addMarker(GeoPoint(lat, lon)) // Add marker for the location
+                            findNavController().navigate(R.id.action_mapFragment_to_favoriteFragment22)
+                        }
+                    )
                 }
                 return true
             }
@@ -137,7 +173,13 @@ class MapFragment : Fragment() {
         mapView.onPause()
     }
 
-    private fun showConfirmationDialog(lat: Double, lon: Double) {
+    private fun showCustomDialog(
+        title: String,
+        message: String,
+        positiveButtonText: String,
+        negativeButtonText: String,
+        onPositiveClick: () -> Unit
+    ) {
         val builder = AlertDialog.Builder(requireContext())
         val inflater = layoutInflater
         val dialogView = inflater.inflate(R.layout.custom_dialog, null)
@@ -148,15 +190,15 @@ class MapFragment : Fragment() {
         val yesButton: Button = dialogView.findViewById(R.id.button_yes)
         val noButton: Button = dialogView.findViewById(R.id.button_no)
 
-        titleView.text = "Confirmation"
-        messageView.text = "Are you sure you want to go to this location?"
+        titleView.text = title
+        messageView.text = message
+        yesButton.text = positiveButtonText
+        noButton.text = negativeButtonText
 
         val dialog = builder.create()
 
         yesButton.setOnClickListener {
-            addMarker(GeoPoint(lat, lon))
-            viewModel.saveLocation(lat, lon) // Save location using ViewModel
-            findNavController().navigate(R.id.action_mapFragment_to_homeFragment2)
+            onPositiveClick() // Execute the provided positive click action
             dialog.dismiss()
         }
 

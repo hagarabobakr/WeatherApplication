@@ -9,7 +9,7 @@ class MapViewModel (private val repo: WeatherRepository):ViewModel(){
         repo.setMapLon(lon.toString())
     }
     fun saveFavLocation(lat: Double, lon: Double) {
-        repo.setMapLat(lat.toString())
-        repo.setMapLon(lon.toString())
+        repo.setFavLat(lat.toString())
+        repo.setFavLon(lon.toString())
     }
 }

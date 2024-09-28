@@ -6,7 +6,7 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.example.weatherapp.data.model.FavoriteWeather
 
-@Database(entities = [FavoriteWeather::class], version = 1)
+@Database(entities = [FavoriteWeather::class], version = 2)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun favoriteWeatherDao(): FavoriteWeatherDao
 

@@ -9,6 +9,9 @@ data class FavoriteWeather(
     @PrimaryKey
     @NotNull
     val name: String,
+    val temp: Double,
+    val icon: String,
+    val dt: Long,
     val lon: Double?,
     val lat: Double?,
     val description: String,

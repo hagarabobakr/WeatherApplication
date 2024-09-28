@@ -26,18 +26,14 @@ class DailyWeatherAdapter:ListAdapter<WeatherForecast,DailyWeatherAdapter.DailyW
         fun bind(weather: WeatherForecast) {
             // Convert dt_txt to LocalDateTime
             val dateTime = LocalDateTime.parse(weather.dt_txt, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))
-
             // Get the name of the day
             val dayOfWeek = dateTime.dayOfWeek.name.toLowerCase(Locale.getDefault()).capitalize()
             binding.townName.text = dayOfWeek // Set the day name
-
             // Get a formatted date
             val dateFormatter = DateTimeFormatter.ofPattern("dd MMM yyyy", Locale.getDefault())
             binding.date.text = dateTime.format(dateFormatter) // Set the formatted date (day/month/year)
-
             // Set the temperature
             binding.temp.text = weather.main.temp.toString()
-
             // Load weather icon
             Glide.with(binding.tempImg.context)
                 .load("https://openweathermap.org/img/wn/${weather.weather[0].icon}.png")
