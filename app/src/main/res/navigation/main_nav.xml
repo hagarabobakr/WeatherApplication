@@ -16,7 +16,7 @@
     </fragment>
     <fragment
         android:id="@+id/favoriteFragment2"
-        android:name="com.example.weatherapp.view.FavoriteFragment"
+        android:name="com.example.weatherapp.view.fav.FavoriteFragment"
         android:label="fragment_favorite"
         tools:layout="@layout/fragment_favorite" >
         <action
@@ -48,5 +48,8 @@
         <action
             android:id="@+id/action_mapFragment_to_homeFragment2"
             app:destination="@id/homeFragment2" />
+        <action
+            android:id="@+id/action_mapFragment_to_favoriteFragment22"
+            app:destination="@id/favoriteFragment2" />
     </fragment>
 </navigation>

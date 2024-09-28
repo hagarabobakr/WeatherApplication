@@ -35,7 +35,7 @@ class HomeFragmentViewModel (val repo : WeatherRepository) : ViewModel() {
 
     init {
         fetchWeatherData()
-        getFavorites()
+        //getFavorites()
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
@@ -66,8 +66,7 @@ class HomeFragmentViewModel (val repo : WeatherRepository) : ViewModel() {
                     _currentWeatherStateFlow.value = ApiState.Failure(e)
                 }.collect{weather->
                     Log.i(TAG, "getCurrentWeather: ${weather.body()}")
-
-                    val favoriteWeather = FavoriteWeather(
+                    /*val favoriteWeather = FavoriteWeather(
                         name = weather.body()?.name?:" ",
                         lon = weather.body()?.coord?.lon,
                         lat = weather.body()?.coord?.lat,
@@ -77,7 +76,7 @@ class HomeFragmentViewModel (val repo : WeatherRepository) : ViewModel() {
                         lang = lang // استخدم اللغة التي تم تمريرها
                     )
                     repo.addFavoriteWeather(favoriteWeather)
-                    Log.i(TAG, "Added to favorites: $favoriteWeather")
+                    Log.i(TAG, "Added to favorites: $favoriteWeather")*/
                     _currentWeatherStateFlow.value = ApiState.SuccessCurrent(weather)
 
                 }

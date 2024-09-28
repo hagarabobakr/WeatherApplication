@@ -1,4 +1,4 @@
-package com.example.weatherapp.view
+package com.example.weatherapp.view.fav
 
 import android.content.Context
 import android.os.Bundle
@@ -10,6 +10,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.example.weatherapp.R
+import com.example.weatherapp.data.local.AppDatabase
 import com.example.weatherapp.data.local.WeatherLocalDataSource
 import com.example.weatherapp.data.model.WeatherRepository
 import com.example.weatherapp.data.remot.WeatherRemoteDataSource
@@ -17,8 +18,6 @@ import com.example.weatherapp.data.sharedprefrances.GlobalSharedPreferenceDataSo
 import com.example.weatherapp.databinding.FragmentFavoriteBinding
 import com.example.weatherapp.viewmodel.fav.FavoriteViewModel
 import com.example.weatherapp.viewmodel.fav.FavoriteViewModelFactory
-import com.example.weatherapp.viewmodel.home.HomeFragmentViewModel
-import com.example.weatherapp.viewmodel.home.HomeFragmentViewModelFactory
 
 class FavoriteFragment : Fragment() {
     lateinit var binding : FragmentFavoriteBinding
@@ -55,7 +54,8 @@ class FavoriteFragment : Fragment() {
     private fun setupViewModel() {
         val sharedPrefs = requireActivity().getSharedPreferences("MySharedPrefs", Context.MODE_PRIVATE)
         val remoteDataSource = WeatherRemoteDataSource()
-        val localDataSource = WeatherLocalDataSource()
+        val database = AppDatabase.getDatabase(requireContext())
+        val localDataSource = WeatherLocalDataSource(database.favoriteWeatherDao())
         val sharedPreferenceDataSourceImp = GlobalSharedPreferenceDataSourceImp(sharedPrefs)
         val repository = WeatherRepository.getInstance(remoteDataSource, localDataSource, sharedPreferenceDataSourceImp)
 
