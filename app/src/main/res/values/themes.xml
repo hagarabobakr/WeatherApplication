@@ -2,7 +2,13 @@
     <!-- Base application theme. -->
     <style name="Base.Theme.WeatherApp" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Customize your light theme here. -->
-        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+        <item name="colorPrimary">@color/oceanBreeze</item>
+        <item name="colorPrimaryVariant">@color/pastelBlue</item>
+        <item name="colorOnPrimary">@color/white</item>
+        <item name="colorSecondary">@color/lavenderDreams</item>
+        <item name="colorSecondaryVariant">@color/lightLavender</item>
+        <item name="colorOnSecondary">@color/white</item>
+        <item name="fontFamily">@font/yonoy</item>
     </style>
 
     <style name="Theme.WeatherApp" parent="Base.Theme.WeatherApp" />
