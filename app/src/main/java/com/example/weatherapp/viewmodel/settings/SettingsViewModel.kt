@@ -5,6 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.weatherapp.data.model.WeatherRepository
+import java.util.Locale
 
 class SettingsViewModel(val repo: WeatherRepository) : ViewModel() {
     private  val TAG = "SettingsViewModel"
@@ -52,21 +53,7 @@ class SettingsViewModel(val repo: WeatherRepository) : ViewModel() {
         _locationEnabled.value = location
         repo.setLocationEnabled(location)
     }
-    fun changeUnit(){
-        val currentUnit = _selectedWindUnit.value
-        if (currentUnit != null) {
-            when (currentUnit) {
-                "M/S" -> {
-                    repo.setWindSpeedUnit("M/S") // يمكنك استدعاء دالة في المستودع
-                }
-                "K/H" -> {
-                    repo.setWindSpeedUnit("K/H")
-                }
-                "M/H" -> {
-                    repo.setWindSpeedUnit("M/H")
-                }
-            }
-        }
-    }
+
+
 }
 

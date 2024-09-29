@@ -42,7 +42,6 @@ init {
                 }.collect{weather->
                     Log.i(TAG, "getCurrentWeather: ${weather.body()}")
                     val iconUrl = "https://openweathermap.org/img/wn/${weather.body()?.weather?.get(0)?.icon}.png"
-
                     val favoriteWeather = FavoriteWeather(
                         name = weather.body()?.name?:" ",
                         temp = weather.body()?.main?.temp?:23.0,

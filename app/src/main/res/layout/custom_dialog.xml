@@ -7,11 +7,11 @@
 
     <TextView
         android:id="@+id/dialog_title"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/confirmation"
         android:textColor="@color/summerSky"
-        android:fontFamily="@font/yonoy"
+        android:gravity="center"
         android:textSize="28sp"
         android:textStyle="bold"/>
 
@@ -20,7 +20,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:fontFamily="@font/yonoy"
+        android:gravity="center"
         android:textColor="@color/oceanBreeze"
         android:textSize="24sp"
         android:text="@string/are_you_sure_you_want_to_go_to_this_location"
@@ -41,7 +41,7 @@
             android:layout_margin="16dp"
             android:backgroundTint="@color/summerSky"
             android:layout_height="wrap_content"
-            android:text="Yes"/>
+            android:text="@string/yes"/>
 
         <Button
             android:id="@+id/button_no"
@@ -50,6 +50,6 @@
             android:backgroundTint="@color/summerSky"
             android:layout_margin="16dp"
             android:layout_height="wrap_content"
-            android:text="No"/>
+            android:text="@string/no"/>
     </LinearLayout>
 </LinearLayout>

@@ -112,7 +112,7 @@ class HomeFragment : Fragment() {
                     is ApiState.Loading -> {
                         // Show loading indicator
                         binding.loadingIndicator.visibility = View.VISIBLE
-                        Log.i(TAG, "Loading weather...")
+                        Log.i(TAG, getString(R.string.loading_weather))
                     }
                     is ApiState.SuccessCurrent -> {
                         // Hide loading indicator and display weather
@@ -122,7 +122,9 @@ class HomeFragment : Fragment() {
                        // binding.date.text = state.data.body()?.dt.toString()
                         //date after formating
                         val dateInMillis =  state.data.body()?.dt?.times(1000) ?: 0 // Convert from seconds to milliseconds
-                        val dateFormat = SimpleDateFormat("dd MMM yyyy : HH:mm ", Locale.getDefault())
+                        val selectedLanguage = viewModel.repo.getLang()
+                        val locale = if (selectedLanguage == "ar") Locale("ar") else Locale("en")
+                        val dateFormat = SimpleDateFormat("dd MMM yyyy : HH:mm ", locale)
                         val formattedDate = dateFormat.format(Date(dateInMillis))
                         binding.date.text = formattedDate
                         binding.temp.text = "${state.data.body()?.main?.temp.toString()} ${viewModel.repo.getTempUnit()}"
@@ -146,10 +148,10 @@ class HomeFragment : Fragment() {
                         binding.loadingIndicator.visibility = View.GONE
                         Toast.makeText(
                             requireContext(),
-                            "Failed to load weather, please try again",
+                            getString(R.string.failed_to_load_weather_please_try_again),
                             Toast.LENGTH_SHORT
                         ).show()
-                        Log.e(TAG, "Error loading: ${state.msg}")
+                        Log.e(TAG, getString(R.string.error_loading, state.msg))
                     }
 
                     else -> {}
@@ -178,7 +180,8 @@ class HomeFragment : Fragment() {
                         Log.i(TAG, "setUpHourlyWeatherObserver SuccessForecast: ${state.data.size}")
                     }
                     is ApiState.Failure -> {
-                        Toast.makeText(requireContext(), "Failed to load hourly weather", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(requireContext(),
+                            getString(R.string.failed_to_load_hourly_weather), Toast.LENGTH_SHORT).show()
                     }
 
                     else -> {}
@@ -203,7 +206,8 @@ class HomeFragment : Fragment() {
                        // Log.i(TAG, "setUpDailyWeatherObserver SuccessForecast: ${state.data.size}")
                     }
                     is ApiState.Failure -> {
-                        Toast.makeText(requireContext(), "Failed to load hourly weather", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(requireContext(),
+                            getString(R.string.failed_to_load_daily_weather), Toast.LENGTH_SHORT).show()
                     }
 
                     else -> {}

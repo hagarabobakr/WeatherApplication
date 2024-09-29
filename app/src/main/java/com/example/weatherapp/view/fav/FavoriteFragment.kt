@@ -87,15 +87,15 @@ class FavoriteFragment : Fragment(),FavItemClickListener {
 
     override fun onDeleteIconClicked(favItem: FavoriteWeather) {
         AlertDialog.Builder(requireContext())
-            .setTitle("Delete Confirmation")
-            .setMessage("Are you sure you want to delete this item?")
-            .setPositiveButton("Yes"){ dialog, _ ->
+            .setTitle(getString(R.string.delete_confirmation))
+            .setMessage(getString(R.string.are_you_sure_you_want_to_delete_this_item))
+            .setPositiveButton(getString(R.string.yes)){ dialog, _ ->
                 viewModel.removeFav(favItem)
                 Log.i(TAG, "onDeleteIconClicked: delete")
                 Toast.makeText(requireContext(), "Item deleted", Toast.LENGTH_SHORT).show()
                 dialog.dismiss()
             }
-            .setNegativeButton("No") { dialog, _ ->
+            .setNegativeButton(getString(R.string.no)) { dialog, _ ->
                 dialog.dismiss() // Close the dialog without deleting
             }
             .create()
