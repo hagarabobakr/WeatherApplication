@@ -5,7 +5,6 @@ import com.example.weatherapp.data.local.WeatherLocalDataSource
 import com.example.weatherapp.data.remot.WeatherRemoteDataSource
 import com.example.weatherapp.data.sharedprefrances.GlobalSharedPreferenceDataSource
 import com.example.weatherapp.data.sharedprefrances.GlobalSharedPreferenceDataSourceImp
-import com.example.weatherapp.units
 import kotlinx.coroutines.flow.Flow
 import retrofit2.Response
 
@@ -33,25 +32,28 @@ class WeatherRepository (private var remoteDataSource: WeatherRemoteDataSource,
     override suspend fun fetchCurrentWeather(
         lat: Double,
         lon: Double,
-        lang: String
+        lang: String,
+        unit: String
     ): Flow<Response<Weather>> {
-        return remoteDataSource.fetchCurrentWeather(lat,lon,lang)
+        return remoteDataSource.fetchCurrentWeather(lat,lon,lang,unit)
     }
 
     override suspend fun fetchHourlyForecast(
         lat: Double,
         lon: Double,
-        lang: String
+        lang: String,
+        unit: String
     ): Flow<List<WeatherForecast>> {
-        return remoteDataSource.fetchHourlyForecast(lat,lon,lang)
+        return remoteDataSource.fetchHourlyForecast(lat,lon,lang,unit)
     }
 
     override suspend fun fetchDailyForecast(
         lat: Double,
         lon: Double,
-        lang: String
+        lang: String,
+        unit: String
     ): Flow<Response<Weather>> {
-        return remoteDataSource.fetchDailyForecast(lat,lon,lang)
+        return remoteDataSource.fetchDailyForecast(lat,lon,lang,unit)
     }
 
 
@@ -68,9 +70,16 @@ class WeatherRepository (private var remoteDataSource: WeatherRemoteDataSource,
         localDataSource.deleteFavorite(weather)
     }
 
+    override fun getUnit(): String {
+        return globalSharedPreferenceDataSource.getUnit()
+    }
+
+    override fun setUnit(string: String) {
+        globalSharedPreferenceDataSource.setUnit(string)
+    }
 
 
-//Shared functions
+    //Shared functions
     override fun getTempUnit(): String {
         return globalSharedPreferenceDataSource.getTempUnit()
     }

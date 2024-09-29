@@ -46,7 +46,6 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="center"
-                        android:fontFamily="@font/yonoy"
                         android:textSize="24sp"
                         tools:text="SUNDAY" />
 
@@ -55,7 +54,6 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="center"
-                        android:fontFamily="@font/yonoy"
                         android:textColor="@color/softGray"
                         tools:text="14 May 2024" />
                 </LinearLayout>
@@ -67,7 +65,6 @@
                     android:gravity="center"
                     android:layout_gravity="center"
                     android:layout_weight="1"
-                    android:fontFamily="@font/yonoy"
                     android:textSize="35sp"
                     android:textColor="@color/oceanBreeze"
                     tools:text="27" />

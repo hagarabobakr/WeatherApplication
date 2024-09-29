@@ -1,11 +1,14 @@
 package com.example.weatherapp.viewmodel.settings
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.weatherapp.data.model.WeatherRepository
+import java.util.Locale
 
 class SettingsViewModel(val repo: WeatherRepository) : ViewModel() {
+    private  val TAG = "SettingsViewModel"
     private val _selectedLanguage = MutableLiveData<String>()
     val selectedLanguage: LiveData<String> get() = _selectedLanguage
 
@@ -34,6 +37,11 @@ class SettingsViewModel(val repo: WeatherRepository) : ViewModel() {
     fun selectWindUnit(unit: String) {
         _selectedWindUnit.value = unit
         repo.setWindSpeedUnit(unit)
+        when(repo.getWindSpeedUnit()){
+            "M/S" -> repo.setUnit("standard")
+            "K/H" -> repo.setUnit("metric")
+            "M/H" -> repo.setUnit("imperial")
+        }
     }
 
     fun selectNotificationsEnabled(enabled: String) {
@@ -45,5 +53,7 @@ class SettingsViewModel(val repo: WeatherRepository) : ViewModel() {
         _locationEnabled.value = location
         repo.setLocationEnabled(location)
     }
+
+
 }
 

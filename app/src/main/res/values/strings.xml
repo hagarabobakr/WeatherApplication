@@ -42,4 +42,22 @@
     <string name="pressure">Pressure</string>
     <string name="humidity">Humidity</string>
     <string name="your_favorite_places">Your favorite places</string>
+    <string name="_12_00">12:00</string>
+    <string name="_20">20</string>
+    <string name="london">london</string>
+    <string name="_27">27</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="are_you_sure_you_want_to_add_this_location_to_your_favorites">Are you sure you want to add this location to your favorites?</string>
+    <string name="selected_location">Selected Location</string>
+    <string name="loading_weather">Loading weather...</string>
+    <string name="failed_to_load_weather_please_try_again">Failed to load weather, please try again</string>
+    <string name="error_loading">Error loading: %1$s</string>
+    <string name="failed_to_load_hourly_weather">Failed to load hourly weather</string>
+    <string name="failed_to_load_daily_weather">Failed to load daily weather</string>
+    <string name="delete_confirmation">Delete Confirmation</string>
+    <string name="are_you_sure_you_want_to_delete_this_item">Are you sure you want to delete this item?</string>
+    <string name="home">Home</string>
+    <string name="favorites">Favorites</string>
+    <string name="alerts">Alerts</string>
 </resources>

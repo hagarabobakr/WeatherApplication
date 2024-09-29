@@ -38,8 +38,7 @@
                         android:id="@+id/cityName"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:fontFamily="@font/yonoy"
-                        android:text="london"
+                        android:text="@string/london"
                         android:textColor="@color/midnightBlack"
                         android:textSize="45sp" />
 
@@ -47,7 +46,6 @@
                         android:id="@+id/date"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:fontFamily="@font/yonoy"
                         android:textColor="@color/softGray"
                         android:textSize="16sp"
                         tools:text="sunday, 20-2-2024" />
@@ -78,7 +76,6 @@
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-
                     android:padding="16dp"
                     >
 
@@ -95,27 +92,25 @@
 
                         <ImageView
                             android:id="@+id/image1"
-                            android:layout_width="100dp"
-                            android:layout_height="100dp"
+                            android:layout_width="150dp"
+                            android:layout_height="150dp"
                             app:srcCompat="@drawable/day_sun" />
 
                         <TextView
                             android:id="@+id/weatherDesc"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:fontFamily="@font/yonoy"
                             android:textColor="@color/white"
                             android:textSize="25sp"
                             tools:text="london" />
 
-                        <TextView
+                        <!--<TextView
                             android:id="@+id/toNight"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:fontFamily="@font/yonoy"
                             android:textColor="@color/white"
                             android:textSize="16dp"
-                            tools:text="Tonight" />
+                            tools:text="Tonight" />-->
 
                     </LinearLayout>
 
@@ -133,15 +128,15 @@
 
                         <TextView
                             android:id="@+id/temp"
-                            android:layout_width="wrap_content"
+                            android:layout_width="70dp"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
                             android:fontFamily="@font/yonoy"
-                            android:text="27"
+                            android:text="@string/_27"
                             android:textColor="@color/white"
-                            android:textSize="60dp" />
+                            android:textSize="24sp" />
 
-                        <TextView
+                        <!--<TextView
                             android:id="@+id/feelsLike"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -149,7 +144,7 @@
                             android:fontFamily="@font/yonoy"
                             android:textColor="@color/white"
                             android:textSize="18dp"
-                            tools:text="feels like 32 " />
+                            tools:text="feels like 32"/>-->
 
                         <ImageView
                             android:id="@+id/temp_img"
@@ -194,13 +189,11 @@
                                     android:id="@+id/humidity_txt"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:fontFamily="@font/yonoy"
                                     tools:text="20km/h" />
 
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:fontFamily="@font/yonoy"
                                     android:textColor="@color/softGray"
                                     android:text="@string/humidity" />
                             </LinearLayout>
@@ -232,13 +225,11 @@
                                     android:id="@+id/pressure_txt"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:fontFamily="@font/yonoy"
                                     tools:text="20km/h" />
 
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:fontFamily="@font/yonoy"
                                     android:textColor="@color/softGray"
                                     android:text="@string/pressure" />
                             </LinearLayout>
@@ -270,13 +261,11 @@
                                     android:id="@+id/wind_txt"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:fontFamily="@font/yonoy"
                                     tools:text="20km/h" />
 
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:fontFamily="@font/yonoy"
                                     android:textColor="@color/softGray"
                                     android:text="@string/wind" />
                             </LinearLayout>
@@ -308,13 +297,11 @@
                                     android:id="@+id/cloud_txt"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:fontFamily="@font/yonoy"
                                     tools:text="20km/h" />
 
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:fontFamily="@font/yonoy"
                                     android:textColor="@color/softGray"
                                     android:text="@string/cloud" />
                             </LinearLayout>
@@ -330,7 +317,6 @@
                 android:id="@+id/textView"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/yonoy"
                 android:padding="16dp"
                 android:text="@string/today"
                 android:textSize="30sp"
@@ -353,7 +339,6 @@
                 android:id="@+id/textView2"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/yonoy"
                 android:padding="16dp"
                 android:text="@string/next_seven_days"
                 android:textSize="30sp"

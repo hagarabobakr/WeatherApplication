@@ -97,10 +97,10 @@ class MapFragment : Fragment() {
                     val lat = it.latitude
                     val lon = it.longitude
                     showCustomDialog(
-                        title = "Confirmation",
-                        message = "Are you sure you want to go to this location?",
-                        positiveButtonText = "Yes",
-                        negativeButtonText = "No",
+                        title = getString(R.string.confirmation),
+                        message = getString(R.string.are_you_sure_you_want_to_go_to_this_location),
+                        positiveButtonText = getString(R.string.yes),
+                        negativeButtonText = getString(R.string.no),
                         onPositiveClick = {
                             addMarker(GeoPoint(lat, lon))
                             viewModel.saveLocation(lat, lon) // Save location using ViewModel
@@ -127,10 +127,10 @@ class MapFragment : Fragment() {
                     val lat = it.latitude
                     val lon = it.longitude
                     showCustomDialog(
-                        title = "Confirmation",
-                        message = "Are you sure you want to add this location to your favorites?",
-                        positiveButtonText = "Yes",
-                        negativeButtonText = "No",
+                        title = getString(R.string.confirmation),
+                        message = getString(R.string.are_you_sure_you_want_to_add_this_location_to_your_favorites),
+                        positiveButtonText = getString(R.string.yes),
+                        negativeButtonText = getString(R.string.no),
                         onPositiveClick = {
                             viewModel.saveFavLocation(lat, lon) // Save favorite location using ViewModel
                             addMarker(GeoPoint(lat, lon)) // Add marker for the location
@@ -153,7 +153,7 @@ class MapFragment : Fragment() {
         val marker = Marker(mapView)
         marker.position = point
         marker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM)
-        marker.title = "Selected Location"
+        marker.title = getString(R.string.selected_location)
         marker.setOnMarkerClickListener { m, mapView ->
             InfoWindow.closeAllInfoWindowsOn(mapView)
             m.showInfoWindow()

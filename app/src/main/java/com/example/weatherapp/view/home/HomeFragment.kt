@@ -17,6 +17,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.airbnb.lottie.LottieAnimationView
+import com.bumptech.glide.Glide
 import com.example.weatherapp.R
 import com.example.weatherapp.data.local.AppDatabase
 import com.example.weatherapp.data.local.WeatherLocalDataSource
@@ -44,17 +45,6 @@ class HomeFragment : Fragment() {
     private lateinit var dailyWeatherAdapter: DailyWeatherAdapter
     lateinit var mapAnimation : LottieAnimationView
     private  val TAG = "HomeFragment"
-    /*private val remoteDataSource = WeatherRemoteDataSource()
-    private val localDataSource = WeatherLocalDataSource()
-    private val sharedPreferenceDataSourceImp =
-        GlobalSharedPreferenceDataSourceImp(requireActivity().getSharedPreferences("MySharedPrefs",
-            Context.MODE_PRIVATE))
-    private val repository = WeatherRepository.getInstance(remoteDataSource,localDataSource,sharedPreferenceDataSourceImp)
-    var lattitudeValue : Double = 0.0
-    var longituteValue : Double =0.0
-    lateinit var geoCoder : Geocoder
-    lateinit var fusedLocationProviderClient: FusedLocationProviderClient*/
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -110,7 +100,6 @@ class HomeFragment : Fragment() {
         val localDataSource = WeatherLocalDataSource(database.favoriteWeatherDao())
         val sharedPreferenceDataSourceImp = GlobalSharedPreferenceDataSourceImp(sharedPrefs)
         val repository = WeatherRepository.getInstance(remoteDataSource, localDataSource, sharedPreferenceDataSourceImp)
-
         homeFactory = HomeFragmentViewModelFactory(repository)
         viewModel = ViewModelProvider(this, homeFactory).get(HomeFragmentViewModel::class.java)
     }
@@ -123,25 +112,33 @@ class HomeFragment : Fragment() {
                     is ApiState.Loading -> {
                         // Show loading indicator
                         binding.loadingIndicator.visibility = View.VISIBLE
-                        Log.i(TAG, "Loading weather...")
+                        Log.i(TAG, getString(R.string.loading_weather))
                     }
                     is ApiState.SuccessCurrent -> {
                         // Hide loading indicator and display weather
                         binding.loadingIndicator.visibility = View.GONE
-                        binding.feelsLike.text = state.data.body()?.main?.feelsLike.toString()
+                        //binding.feelsLike.text = state.data.body()?.main?.feelsLike.toString()
                         binding.cityName.text = state.data.body()?.name
                        // binding.date.text = state.data.body()?.dt.toString()
                         //date after formating
                         val dateInMillis =  state.data.body()?.dt?.times(1000) ?: 0 // Convert from seconds to milliseconds
-                        val dateFormat = SimpleDateFormat("dd MMM yyyy : mm:HH ", Locale.getDefault())
+                        val selectedLanguage = viewModel.repo.getLang()
+                        val locale = if (selectedLanguage == "ar") Locale("ar") else Locale("en")
+                        val dateFormat = SimpleDateFormat("dd MMM yyyy : HH:mm ", locale)
                         val formattedDate = dateFormat.format(Date(dateInMillis))
                         binding.date.text = formattedDate
-                        binding.temp.text = state.data.body()?.main?.temp.toString()
+                        binding.temp.text = "${state.data.body()?.main?.temp.toString()} ${viewModel.repo.getTempUnit()}"
                         binding.weatherDesc.text = state.data.body()?.weather?.get(0)?.description
                         binding.pressureTxt.text = "${state.data.body()?.main?.pressure.toString()} hpa"
                         binding.humidityTxt.text = "${state.data.body()?.main?.humidity.toString()} %"
-                        binding.windTxt.text = "${state.data.body()?.wind?.speed .toString()}+ ${viewModel.repo.getWindSpeedUnit()}"
+                        binding.windTxt.text = "${state.data.body()?.wind?.speed .toString()}${viewModel.repo.getWindSpeedUnit()}"
                         binding.cloudTxt.text = "${state.data.body()?.clouds?.all.toString()} %"
+                        Glide.with(binding.image1.context)
+                            .load("https://openweathermap.org/img/wn/${state.data.body()?.weather?.get(0)?.icon}.png")
+                            .into(binding.image1)
+                        Glide.with(binding.tempImg.context)
+                            .load("https://openweathermap.org/img/wn/${state.data.body()?.weather?.get(0)?.icon}.png")
+                            .into(binding.tempImg)
                         Log.i(TAG, "setUpCurrentWeatherObserver: ${state.data.body()?.main?.feelsLike.toString()}")
                         Log.i(TAG, "setUpCurrentWeatherObserver name: ${state.data.body()?.name}")
                         Log.i(TAG, "setUpCurrentWeatherObserver: ${state.data.body()?.dt.toString()}")
@@ -151,10 +148,10 @@ class HomeFragment : Fragment() {
                         binding.loadingIndicator.visibility = View.GONE
                         Toast.makeText(
                             requireContext(),
-                            "Failed to load weather, please try again",
+                            getString(R.string.failed_to_load_weather_please_try_again),
                             Toast.LENGTH_SHORT
                         ).show()
-                        Log.e(TAG, "Error loading: ${state.msg}")
+                        Log.e(TAG, getString(R.string.error_loading, state.msg))
                     }
 
                     else -> {}
@@ -165,7 +162,7 @@ class HomeFragment : Fragment() {
     }
 
     private fun updateUi(weather:Weather){
-        binding.feelsLike.text = weather.main.feelsLike.toString()
+        //binding.feelsLike.text = weather.main.feelsLike.toString()
 
     }
     @RequiresApi(Build.VERSION_CODES.O)
@@ -183,7 +180,8 @@ class HomeFragment : Fragment() {
                         Log.i(TAG, "setUpHourlyWeatherObserver SuccessForecast: ${state.data.size}")
                     }
                     is ApiState.Failure -> {
-                        Toast.makeText(requireContext(), "Failed to load hourly weather", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(requireContext(),
+                            getString(R.string.failed_to_load_hourly_weather), Toast.LENGTH_SHORT).show()
                     }
 
                     else -> {}
@@ -208,7 +206,8 @@ class HomeFragment : Fragment() {
                        // Log.i(TAG, "setUpDailyWeatherObserver SuccessForecast: ${state.data.size}")
                     }
                     is ApiState.Failure -> {
-                        Toast.makeText(requireContext(), "Failed to load hourly weather", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(requireContext(),
+                            getString(R.string.failed_to_load_daily_weather), Toast.LENGTH_SHORT).show()
                     }
 
                     else -> {}

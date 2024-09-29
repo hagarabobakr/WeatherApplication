@@ -12,17 +12,17 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".view.SplashActivity"
-        android:background="@color/oceanBreeze">
+        android:background="@color/white">
 
         <com.airbnb.lottie.LottieAnimationView
             android:id="@+id/weatherAnimator"
-            android:layout_width="250dp"
-            android:layout_height="250dp"
+            android:layout_width="350dp"
+            android:layout_height="350dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:lottie_rawRes="@raw/weather" />
+            app:lottie_rawRes="@raw/splash" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

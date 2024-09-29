@@ -1,6 +1,7 @@
 package com.example.weatherapp.view
 
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -21,6 +22,7 @@ import com.example.weatherapp.viewmodel.home.HomeFragmentViewModel
 import com.example.weatherapp.viewmodel.home.HomeFragmentViewModelFactory
 import com.example.weatherapp.viewmodel.settings.SettingsViewModel
 import com.example.weatherapp.viewmodel.settings.SettingsViewModelFactory
+import java.util.Locale
 
 
 class SettingsFragment : Fragment() {
@@ -86,6 +88,7 @@ class SettingsFragment : Fragment() {
                 else -> ""
             }
             viewModel.selectLanguage(language)
+            changeAppLanguage(language)
         }
 
         //radioGroupTemp
@@ -170,6 +173,16 @@ class SettingsFragment : Fragment() {
         val repository = WeatherRepository.getInstance(remoteDataSource, localDataSource, sharedPreferenceDataSourceImp)
         settingsFactory = SettingsViewModelFactory(repository)
         viewModel = ViewModelProvider(this, settingsFactory).get(SettingsViewModel::class.java)
+    }
+    private fun changeAppLanguage(languageCode: String) {
+        val locale = Locale(languageCode)
+        Locale.setDefault(locale)
+        val config = resources.configuration
+        config.setLocale(locale)
+        resources.updateConfiguration(config, resources.displayMetrics)
+        val intent = Intent(requireContext(), HomeActivity::class.java)
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK)
+        startActivity(intent)
     }
 
     private fun performActionForGPS() {

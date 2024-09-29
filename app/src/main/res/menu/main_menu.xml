@@ -3,25 +3,25 @@
     <group >
         <item
             android:id="@+id/homeFragment2"
-            android:title="Home"
+            android:title="@string/home"
             android:icon="@drawable/home_ic"
             android:checkable="true"
             />
         <item
             android:id="@+id/favoriteFragment2"
-            android:title="Favorites"
+            android:title="@string/favorites"
             android:icon="@drawable/favorite_ic"
             android:checkable="true"
             />
         <item
             android:id="@+id/aleartFragment"
-            android:title="Alerts"
+            android:title="@string/alerts"
             android:icon="@drawable/alarm_ic"
             android:checkable="true"
             />
         <item
             android:id="@+id/settingsFragment2"
-            android:title="Settings"
+            android:title="@string/settings"
             android:icon="@drawable/settings_ic"
             android:checkable="true"
             />
