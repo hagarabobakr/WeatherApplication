@@ -64,7 +64,7 @@ class WeatherRemoteDataSource(var WeatherService: ApiService) : IWeatherRemoteDa
         throw e
     }
 
-    override suspend fun fetchDailyForecast(
+    /*override suspend fun fetchDailyForecast(
         lat: Double,
         lon: Double,
         lang: String,
@@ -75,7 +75,7 @@ class WeatherRemoteDataSource(var WeatherService: ApiService) : IWeatherRemoteDa
             emit(response)
     }.catch { e ->
         throw e
-    }
+    }*/
 }
 
 

@@ -20,12 +20,12 @@ interface IWeatherRepository {
         unit: String
     ): Flow<List<WeatherForecast>>
 
-    suspend fun fetchDailyForecast(
+    /*suspend fun fetchDailyForecast(
         lat: Double,
         lon: Double,
         lang: String,
         unit: String
-    ): Flow<Response<Weather>>
+    ): Flow<Response<Weather>>*/
 
     // Room functions
     suspend fun addFavoriteWeather(favoriteWeather: FavoriteWeather)

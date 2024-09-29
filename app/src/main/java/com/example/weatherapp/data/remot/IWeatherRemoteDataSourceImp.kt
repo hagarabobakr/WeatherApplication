@@ -21,12 +21,12 @@ interface IWeatherRemoteDataSourceImp {
         unit: String
     ): Flow<List<WeatherForecast>>
 
-    suspend fun fetchDailyForecast(
+    /*suspend fun fetchDailyForecast(
         lat: Double,
         lon: Double,
         lang: String,
         unit: String
-    ): Flow<Response<Weather>>
+    ): Flow<Response<Weather>>*/
     /* suspend fun getMain(lat: Double, lon: Double): Main?
      suspend fun getWind(lat: Double, lon: Double): Wind?
      suspend fun getClouds(lat: Double, lon: Double): Clouds?
