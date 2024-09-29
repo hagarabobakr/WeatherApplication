@@ -15,8 +15,9 @@ class GlobalSharedPreferenceDataSourceImp(private val sharedPreferences: SharedP
     private val unitKey = "UNIT"
     private val notificationsEnabledKey = "NOTIFICATIONS_ENABLED"
     private val locationEnabledKey = "LOCATION_ENABLED"
+
     override fun getUnit(): String {
-        return sharedPreferences.getString(unitKey, "metric") ?: "metric"
+        return sharedPreferences.getString(unitKey, "metric") ?: "standard"
     }
 
     override fun setUnit(string: String) {

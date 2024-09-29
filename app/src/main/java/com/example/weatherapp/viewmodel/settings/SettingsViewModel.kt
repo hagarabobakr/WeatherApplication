@@ -1,11 +1,13 @@
 package com.example.weatherapp.viewmodel.settings
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.weatherapp.data.model.WeatherRepository
 
 class SettingsViewModel(val repo: WeatherRepository) : ViewModel() {
+    private  val TAG = "SettingsViewModel"
     private val _selectedLanguage = MutableLiveData<String>()
     val selectedLanguage: LiveData<String> get() = _selectedLanguage
 
@@ -29,11 +31,17 @@ class SettingsViewModel(val repo: WeatherRepository) : ViewModel() {
     fun selectTemperatureUnit(unit: String) {
         _selectedTemperatureUnit.value = unit
         repo.setTempUnit(unit)
+        when(repo.getWindSpeedUnit()){
+            "M/S" -> repo.setUnit("standard")
+            "K/H" -> repo.setUnit("metric")
+            "M/H" -> repo.setUnit("imperial")
+        }
     }
 
     fun selectWindUnit(unit: String) {
         _selectedWindUnit.value = unit
         repo.setWindSpeedUnit(unit)
+        changeUnit()
     }
 
     fun selectNotificationsEnabled(enabled: String) {
@@ -44,6 +52,22 @@ class SettingsViewModel(val repo: WeatherRepository) : ViewModel() {
     fun selectLocationEnabled(location: String) {
         _locationEnabled.value = location
         repo.setLocationEnabled(location)
+    }
+    fun changeUnit(){
+        val currentUnit = _selectedWindUnit.value
+        if (currentUnit != null) {
+            when (currentUnit) {
+                "M/S" -> {
+                    repo.setWindSpeedUnit("M/S") // يمكنك استدعاء دالة في المستودع
+                }
+                "K/H" -> {
+                    repo.setWindSpeedUnit("K/H")
+                }
+                "M/H" -> {
+                    repo.setWindSpeedUnit("M/H")
+                }
+            }
+        }
     }
 }
 

@@ -19,6 +19,7 @@ class FavoriteViewModel(val repo: WeatherRepository):ViewModel() {
     var lat = repo.getFavLat().toDouble()
     var lon = repo.getFavLon().toDouble()
     var  lang = repo.getLang()
+    var unit = repo.getUnit()
     //get current weather
     private val _currentFavWeatherStateFlow = MutableStateFlow<ApiState>(ApiState.Loading)
     val currentFavWeatherStateFlow: StateFlow<ApiState> = _currentFavWeatherStateFlow
@@ -27,25 +28,26 @@ class FavoriteViewModel(val repo: WeatherRepository):ViewModel() {
     val localWeather: LiveData<List<FavoriteWeather>> = _favWeatherList
 
 init {
-    getCurrentWeather(lat,lon,lang)
+    getCurrentWeather(lat,lon,lang,unit)
     getFavorites()
 }
-    fun getCurrentWeather(lat: Double, lon: Double,lang : String) {
+    fun getCurrentWeather(lat: Double, lon: Double,lang : String, unit:String) {
         Log.i(TAG, "getCurrentWeather: ")
         viewModelScope.launch{
-            repo.fetchCurrentWeather(lat,lon,lang)
+            repo.fetchCurrentWeather(lat,lon,lang,unit)
                 .onStart {
                     _currentFavWeatherStateFlow.value = ApiState.Loading
                 }.catch { e ->
                     _currentFavWeatherStateFlow.value = ApiState.Failure(e)
                 }.collect{weather->
                     Log.i(TAG, "getCurrentWeather: ${weather.body()}")
+                    val iconUrl = "https://openweathermap.org/img/wn/${weather.body()?.weather?.get(0)?.icon}.png"
 
                     val favoriteWeather = FavoriteWeather(
                         name = weather.body()?.name?:" ",
                         temp = weather.body()?.main?.temp?:23.0,
                         dt = weather.body()?.dt ?: 0,
-                        icon = weather.body()?.weather?.get(0)?.icon?:" ",
+                        icon = iconUrl,
                         lon = weather.body()?.coord?.lon,
                         lat = weather.body()?.coord?.lat,
                         description = weather.body()?.weather?.firstOrNull()?.description ?: "",
@@ -69,4 +71,14 @@ init {
             }
         }
     }
+    fun removeFav(weather: FavoriteWeather){
+        viewModelScope.launch {
+            repo.deleteFavoriteWeather(weather)
+            Log.i(TAG, "removeFav: success")
+            getFavorites()
+        }
+    }
+
+
+
 }

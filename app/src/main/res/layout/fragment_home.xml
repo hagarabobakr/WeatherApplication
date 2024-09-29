@@ -95,8 +95,8 @@
 
                         <ImageView
                             android:id="@+id/image1"
-                            android:layout_width="100dp"
-                            android:layout_height="100dp"
+                            android:layout_width="150dp"
+                            android:layout_height="150dp"
                             app:srcCompat="@drawable/day_sun" />
 
                         <TextView
@@ -139,9 +139,9 @@
                             android:fontFamily="@font/yonoy"
                             android:text="27"
                             android:textColor="@color/white"
-                            android:textSize="60dp" />
+                            android:textSize="45dp" />
 
-                        <TextView
+                        <!--<TextView
                             android:id="@+id/feelsLike"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -149,7 +149,7 @@
                             android:fontFamily="@font/yonoy"
                             android:textColor="@color/white"
                             android:textSize="18dp"
-                            tools:text="feels like 32 " />
+                            tools:text="feels like 32"/>-->
 
                         <ImageView
                             android:id="@+id/temp_img"

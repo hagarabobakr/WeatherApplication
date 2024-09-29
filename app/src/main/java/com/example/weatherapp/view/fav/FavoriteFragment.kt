@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
@@ -16,6 +17,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.example.weatherapp.R
 import com.example.weatherapp.data.local.AppDatabase
 import com.example.weatherapp.data.local.WeatherLocalDataSource
+import com.example.weatherapp.data.model.FavoriteWeather
 import com.example.weatherapp.data.model.WeatherRepository
 import com.example.weatherapp.data.remot.ApiState
 import com.example.weatherapp.data.remot.WeatherRemoteDataSource
@@ -81,6 +83,27 @@ class FavoriteFragment : Fragment(),FavItemClickListener {
             layoutManager = GridLayoutManager(context,2)
             adapter = favWeatherAdapter
         }
+    }
+
+    override fun onDeleteIconClicked(favItem: FavoriteWeather) {
+        AlertDialog.Builder(requireContext())
+            .setTitle("Delete Confirmation")
+            .setMessage("Are you sure you want to delete this item?")
+            .setPositiveButton("Yes"){ dialog, _ ->
+                viewModel.removeFav(favItem)
+                Log.i(TAG, "onDeleteIconClicked: delete")
+                Toast.makeText(requireContext(), "Item deleted", Toast.LENGTH_SHORT).show()
+                dialog.dismiss()
+            }
+            .setNegativeButton("No") { dialog, _ ->
+                dialog.dismiss() // Close the dialog without deleting
+            }
+            .create()
+            .show()
+    }
+
+    override fun onItemClicked(favItem: FavoriteWeather) {
+
     }
 
 

@@ -26,6 +26,12 @@ class FavWeatherAdapter (private val onItemClick: FavItemClickListener) :
             binding.townName.text = weather.name
             binding.date.text = "${formatDate(weather.dt)}"
             binding.temp.text = weather.temp.toString()
+            binding.deleteIc.setOnClickListener {
+                onItemClick.onDeleteIconClicked(weather)
+            }
+            binding.root.setOnClickListener {
+                onItemClick.onItemClicked(weather)
+            }
         }
 
         private fun formatDay(timestamp: Long): String {

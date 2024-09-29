@@ -5,7 +5,6 @@ import android.util.Log
 import com.example.weatherapp.API_KEY
 import com.example.weatherapp.data.model.Weather
 import com.example.weatherapp.data.model.WeatherForecast
-import com.example.weatherapp.units
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flow
@@ -14,6 +13,7 @@ import retrofit2.Response
 class WeatherRemoteDataSource : IWeatherRemoteDataSourceImp {
     private  val TAG = "WeatherRemoteDataSource"
     //val API_KEY = "f48d1fc66b3c4b9f11c2cbfbbe1047dc"
+
     private val WeatherService: ApiService by lazy {
         RetrofitHelper.getInstance().create(ApiService::class.java)
     }
@@ -40,9 +40,9 @@ class WeatherRemoteDataSource : IWeatherRemoteDataSourceImp {
 //        }
 //    }
 
-    override suspend fun fetchCurrentWeather(lat: Double, lon: Double, lang: String):
+    override suspend fun fetchCurrentWeather(lat: Double, lon: Double, lang: String,unit:String):
             Flow<Response<Weather>> = flow {
-        val response = WeatherService.getCurrentWeather(lat, lon, lang, API_KEY, units)
+        val response = WeatherService.getCurrentWeather(lat, lon, lang, API_KEY, unit)
         if (response.isSuccessful && response.body() != null)
             emit(response)
         Log.i(TAG, "fetchCurrentWeather: $response")
@@ -54,9 +54,10 @@ class WeatherRemoteDataSource : IWeatherRemoteDataSourceImp {
     override suspend fun fetchHourlyForecast(
         lat: Double,
         lon: Double,
-        lang: String
+        lang: String,
+        unit: String
     ): Flow<List<WeatherForecast>> = flow {
-        val response = WeatherService.getHourlyForecast(lat, lon, lang,units,API_KEY)
+        val response = WeatherService.getHourlyForecast(lat, lon, lang,unit,API_KEY)
             emit(response.list)
         Log.i(TAG, "fetchHourlyForecast: $response")
     }.catch { e ->
@@ -66,9 +67,10 @@ class WeatherRemoteDataSource : IWeatherRemoteDataSourceImp {
     override suspend fun fetchDailyForecast(
         lat: Double,
         lon: Double,
-        lang: String
+        lang: String,
+        unit: String
     ): Flow<Response<Weather>> = flow {
-        val response = WeatherService.getDailyForecast(lat, lon, lang, 8,API_KEY, units)
+        val response = WeatherService.getDailyForecast(lat, lon, lang, 8,API_KEY, unit)
         if (response.isSuccessful && response.body() != null)
             emit(response)
     }.catch { e ->

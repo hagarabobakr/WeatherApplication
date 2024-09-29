@@ -52,14 +52,17 @@ class HomeFragmentViewModel (val repo : WeatherRepository) : ViewModel() {
             lon = repo.getMapLon().toDouble()
         }
 
-        getCurrentWeather(lat, lon, repo.getLang())
-        getHourlyWeather(lat, lon, repo.getLang())
+        getCurrentWeather(lat, lon, repo.getLang(),repo.getUnit())
+        getHourlyWeather(lat, lon, repo.getLang(),repo.getUnit())
+
+        Log.i(TAG, "fetchWeatherData: "+ repo.getUnit())
+        Log.i(TAG, "fetchWeatherData: "+ repo.getWindSpeedUnit())
        // getDailyWeather(lat, lon, repo.getLang())
     }
-    fun getCurrentWeather(lat: Double, lon: Double,lang : String) {
+    fun getCurrentWeather(lat: Double, lon: Double,lang : String, unit:String) {
         Log.i(TAG, "getCurrentWeather: ")
         viewModelScope.launch{
-            repo.fetchCurrentWeather(lat,lon,lang)
+            repo.fetchCurrentWeather(lat,lon,lang,unit)
                 .onStart {
                     _currentWeatherStateFlow.value = ApiState.Loading
                 }.catch { e ->
@@ -71,9 +74,9 @@ class HomeFragmentViewModel (val repo : WeatherRepository) : ViewModel() {
                         lon = weather.body()?.coord?.lon,
                         lat = weather.body()?.coord?.lat,
                         description = weather.body()?.weather?.firstOrNull()?.description ?: "",
-                        unite = repo.getTempUnit(), // استرجاع وحدة الحرارة من Shared Preferences
+                        unite = repo.getTempUnit(),
                         country = weather.body()?.main?.feelsLike.toString(),
-                        lang = lang // استخدم اللغة التي تم تمريرها
+                        lang = lang
                     )
                     repo.addFavoriteWeather(favoriteWeather)
                     Log.i(TAG, "Added to favorites: $favoriteWeather")*/
@@ -86,10 +89,10 @@ class HomeFragmentViewModel (val repo : WeatherRepository) : ViewModel() {
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
-    fun getHourlyWeather(lat: Double, lon: Double, lang : String) {
+    fun getHourlyWeather(lat: Double, lon: Double, lang : String, unit:String) {
         Log.i(TAG, "getCurrentWeather: ")
         viewModelScope.launch{
-            repo.fetchHourlyForecast(lat,lon,lang)
+            repo.fetchHourlyForecast(lat,lon,lang, unit)
                 .onStart {
                     _hourlyWeatherStateFlow.value = ApiState.Loading
                     _dailyWeatherStateFlow.value = ApiState.Loading
