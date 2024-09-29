@@ -19,7 +19,9 @@ import com.example.weatherapp.data.local.AppDatabase
 import com.example.weatherapp.data.local.WeatherLocalDataSource
 import com.example.weatherapp.data.model.FavoriteWeather
 import com.example.weatherapp.data.model.WeatherRepository
+import com.example.weatherapp.data.remot.ApiService
 import com.example.weatherapp.data.remot.ApiState
+import com.example.weatherapp.data.remot.RetrofitHelper
 import com.example.weatherapp.data.remot.WeatherRemoteDataSource
 import com.example.weatherapp.data.sharedprefrances.GlobalSharedPreferenceDataSourceImp
 import com.example.weatherapp.databinding.FragmentFavoriteBinding
@@ -68,7 +70,8 @@ class FavoriteFragment : Fragment(),FavItemClickListener {
 
     private fun setupViewModel() {
         val sharedPrefs = requireActivity().getSharedPreferences("MySharedPrefs", Context.MODE_PRIVATE)
-        val remoteDataSource = WeatherRemoteDataSource()
+        val remoteDataSource = WeatherRemoteDataSource(RetrofitHelper.getInstance().create(
+            ApiService::class.java))
         val database = AppDatabase.getDatabase(requireContext())
         val localDataSource = WeatherLocalDataSource(database.favoriteWeatherDao())
         val sharedPreferenceDataSourceImp = GlobalSharedPreferenceDataSourceImp(sharedPrefs)

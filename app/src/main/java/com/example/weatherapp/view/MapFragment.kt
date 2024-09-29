@@ -17,6 +17,8 @@ import com.example.weatherapp.R
 import com.example.weatherapp.data.local.AppDatabase
 import com.example.weatherapp.data.local.WeatherLocalDataSource
 import com.example.weatherapp.data.model.WeatherRepository
+import com.example.weatherapp.data.remot.ApiService
+import com.example.weatherapp.data.remot.RetrofitHelper
 import com.example.weatherapp.data.remot.WeatherRemoteDataSource
 import com.example.weatherapp.data.sharedprefrances.GlobalSharedPreferenceDataSourceImp
 import com.example.weatherapp.databinding.FragmentMapBinding
@@ -62,7 +64,8 @@ class MapFragment : Fragment() {
     private fun initializeViewModel() {
         // Initialize SharedPreferences and Repository
         val database = AppDatabase.getDatabase(requireContext())
-        val remoteDataSource = WeatherRemoteDataSource()
+        val remoteDataSource = WeatherRemoteDataSource(RetrofitHelper.getInstance().create(
+            ApiService::class.java))
         val localDataSource = WeatherLocalDataSource(database.favoriteWeatherDao())
         val sharedPreferenceDataSourceImp = GlobalSharedPreferenceDataSourceImp(
             requireActivity().getSharedPreferences("MySharedPrefs", Context.MODE_PRIVATE)
