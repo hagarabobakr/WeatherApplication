@@ -1,15 +1,17 @@
 package com.example.weatherapp.data.model
 
 import com.example.weatherapp.API_KEY
+import com.example.weatherapp.data.local.IWeatherLocalDataSource
 import com.example.weatherapp.data.local.WeatherLocalDataSource
+import com.example.weatherapp.data.remot.IWeatherRemoteDataSourceImp
 import com.example.weatherapp.data.remot.WeatherRemoteDataSource
 import com.example.weatherapp.data.sharedprefrances.GlobalSharedPreferenceDataSource
 import com.example.weatherapp.data.sharedprefrances.GlobalSharedPreferenceDataSourceImp
 import kotlinx.coroutines.flow.Flow
 import retrofit2.Response
 
-class WeatherRepository (private var remoteDataSource: WeatherRemoteDataSource,
-                         private var localDataSource: WeatherLocalDataSource,
+class WeatherRepository (private var remoteDataSource: IWeatherRemoteDataSourceImp,
+                         private var localDataSource: IWeatherLocalDataSource,
     private var globalSharedPreferenceDataSource: GlobalSharedPreferenceDataSource
 ) : IWeatherRepository {
 
@@ -47,14 +49,14 @@ class WeatherRepository (private var remoteDataSource: WeatherRemoteDataSource,
         return remoteDataSource.fetchHourlyForecast(lat,lon,lang,unit)
     }
 
-    override suspend fun fetchDailyForecast(
+    /*override suspend fun fetchDailyForecast(
         lat: Double,
         lon: Double,
         lang: String,
         unit: String
     ): Flow<Response<Weather>> {
         return remoteDataSource.fetchDailyForecast(lat,lon,lang,unit)
-    }
+    }*/
 
 
     // Room functions

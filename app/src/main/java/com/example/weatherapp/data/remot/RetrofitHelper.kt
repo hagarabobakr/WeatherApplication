@@ -21,5 +21,6 @@ object RetrofitHelper {
             .client(okHttpClient)  // Add the OkHttp client here
             .baseUrl(BASE_URL)
             .build()
+
     }
 }

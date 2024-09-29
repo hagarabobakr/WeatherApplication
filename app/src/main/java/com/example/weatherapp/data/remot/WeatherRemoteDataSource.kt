@@ -10,21 +10,21 @@ import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flow
 import retrofit2.Response
 
-class WeatherRemoteDataSource : IWeatherRemoteDataSourceImp {
+class WeatherRemoteDataSource(var WeatherService: ApiService) : IWeatherRemoteDataSourceImp {
     private  val TAG = "WeatherRemoteDataSource"
     //val API_KEY = "f48d1fc66b3c4b9f11c2cbfbbe1047dc"
 
-    private val WeatherService: ApiService by lazy {
+    /*private val WeatherService: ApiService by lazy {
         RetrofitHelper.getInstance().create(ApiService::class.java)
-    }
+    }*/
 
     companion object {
         @Volatile
         private var instance: WeatherRemoteDataSource? = null
 
-        fun getInstance(): WeatherRemoteDataSource {
+        fun getInstance(weatherService: ApiService): WeatherRemoteDataSource {
             return instance ?: synchronized(this) {
-                val tempInstance = instance ?: WeatherRemoteDataSource().also { instance = it }
+                val tempInstance = instance ?: WeatherRemoteDataSource(weatherService).also { instance = it }
                 tempInstance
             }
         }
@@ -64,7 +64,7 @@ class WeatherRemoteDataSource : IWeatherRemoteDataSourceImp {
         throw e
     }
 
-    override suspend fun fetchDailyForecast(
+    /*override suspend fun fetchDailyForecast(
         lat: Double,
         lon: Double,
         lang: String,
@@ -75,7 +75,7 @@ class WeatherRemoteDataSource : IWeatherRemoteDataSourceImp {
             emit(response)
     }.catch { e ->
         throw e
-    }
+    }*/
 }
 
 
