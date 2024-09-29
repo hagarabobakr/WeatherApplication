@@ -59,4 +59,5 @@
     <string name="home">الرئيسية</string>
     <string name="favorites">المفضلات</string>
     <string name="alerts">التنبيهات</string>
+    <string name="mapfragment">الخريطة</string>
 </resources>

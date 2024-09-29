@@ -17,19 +17,20 @@ import com.example.weatherapp.databinding.TodayItemBinding
 import java.util.Date
 import java.util.Locale
 
-class FavWeatherAdapter (private val onItemClick: FavItemClickListener) :
+class FavWeatherAdapter (private val onItemClick: FavItemClickListener,private val selectedLanguage: String) :
     ListAdapter<FavoriteWeather, FavWeatherAdapter.ProductViewHolder>(FavProductDiffCallback()) {
 
     class ProductViewHolder(private val binding: FavItemBinding, private val onItemClick: FavItemClickListener) :
         RecyclerView.ViewHolder(binding.root) {
-        fun bind(weather: FavoriteWeather) {
+        fun bind(weather: FavoriteWeather, locale: Locale) {
             binding.townName.text = weather.name
-            binding.date.text = "${formatDate(weather.dt)}"
+            binding.date.text = formatDate(weather.dt, locale)
             binding.temp.text = weather.temp.toString()
-            // Load weather icon
+
             Glide.with(binding.tempImg.context)
                 .load(weather.icon)
                 .into(binding.tempImg)
+
             binding.deleteIc.setOnClickListener {
                 onItemClick.onDeleteIconClicked(weather)
             }
@@ -38,13 +39,8 @@ class FavWeatherAdapter (private val onItemClick: FavItemClickListener) :
             }
         }
 
-        private fun formatDay(timestamp: Long): String {
-            val sdf = SimpleDateFormat("EEEE", Locale.getDefault())
-            return sdf.format(Date(timestamp * 1000))
-        }
-
-        private fun formatDate(timestamp: Long): String {
-            val sdf = SimpleDateFormat("dd MMMM yyyy", Locale.getDefault())
+        private fun formatDate(timestamp: Long, locale: Locale): String {
+            val sdf = SimpleDateFormat("dd MMMM yyyy", locale)
             return sdf.format(Date(timestamp * 1000))
         }
 
@@ -57,7 +53,8 @@ class FavWeatherAdapter (private val onItemClick: FavItemClickListener) :
     }
 
     override fun onBindViewHolder(holder: ProductViewHolder, position: Int) {
-        holder.bind(getItem(position))
+        val locale = if (selectedLanguage == "ar") Locale("ar") else Locale("en")
+        holder.bind(getItem(position),locale)
     }
 }
 

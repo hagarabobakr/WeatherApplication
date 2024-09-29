@@ -45,6 +45,8 @@ class HomeFragment : Fragment() {
     private lateinit var dailyWeatherAdapter: DailyWeatherAdapter
     lateinit var mapAnimation : LottieAnimationView
     private  val TAG = "HomeFragment"
+    private var city: String = ""
+    private var dataFetched: Boolean = false
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -67,8 +69,8 @@ class HomeFragment : Fragment() {
         mapAnimation = binding.mapAnimator
         mapAnimation.loop(true)
         mapAnimation.playAnimation()
-        setupRecyclerView()
         setupViewModel()
+        setupRecyclerView()
         setUpHourlyWeatherObserver()
         setUpDailyWeatherObserver()
         // Call the setup method after initializing the ViewModel
@@ -89,7 +91,7 @@ class HomeFragment : Fragment() {
         binding.recyclerView.adapter = hourlyWeatherAdapter
 
         //DailyWeatherAdapter
-        dailyWeatherAdapter= DailyWeatherAdapter()
+        dailyWeatherAdapter= DailyWeatherAdapter(viewModel.repo.getLang())
         binding.recyclerView2.layoutManager = LinearLayoutManager(context,LinearLayoutManager.VERTICAL,false)
         binding.recyclerView2.adapter = dailyWeatherAdapter
     }
@@ -118,7 +120,25 @@ class HomeFragment : Fragment() {
                         // Hide loading indicator and display weather
                         binding.loadingIndicator.visibility = View.GONE
                         //binding.feelsLike.text = state.data.body()?.main?.feelsLike.toString()
-                        binding.cityName.text = state.data.body()?.name
+                        val geocoder = Geocoder(requireContext(), Locale.getDefault())
+
+                        try {
+                            val addressList = geocoder.getFromLocation(viewModel.repo.getGpsLat().toDouble(),
+                                viewModel.repo.getGpsLon().toDouble(), 1)
+                            if (!addressList.isNullOrEmpty()) {
+                                val address = addressList[0]
+                                city = "${address.adminArea}, ${address.countryName}"
+                            } else {
+                                // Address list is empty or null
+                                Toast.makeText(requireContext(), R.string.Invalid, Toast.LENGTH_SHORT).show()
+                                //binding.textSplash.text = getString(R.string.Location_Unknown)
+                            }
+                        } catch (e: Exception) {
+                            e.printStackTrace()
+                            // Toast.makeText(this, R.string.geocoder_service_not_available, Toast.LENGTH_SHORT).show()
+                            //binding.textSplash.text = getString(R.string.Location_Unknown)
+                        }
+                        binding.cityName.text = "${city}\n ${state.data.body()?.name}"
                        // binding.date.text = state.data.body()?.dt.toString()
                         //date after formating
                         val dateInMillis =  state.data.body()?.dt?.times(1000) ?: 0 // Convert from seconds to milliseconds

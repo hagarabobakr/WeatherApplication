@@ -15,23 +15,23 @@ import com.example.weatherapp.data.model.WeatherForecast
 import com.example.weatherapp.databinding.NextDayItemBinding
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
+import java.time.format.TextStyle
 import java.util.Date
 import java.util.Locale
 
-class DailyWeatherAdapter:ListAdapter<WeatherForecast,DailyWeatherAdapter.DailyWeatherViewHolder>(DailyWeatherDiffCallback()){
+class DailyWeatherAdapter(private val selectedLanguage: String):ListAdapter<WeatherForecast,DailyWeatherAdapter.DailyWeatherViewHolder>(DailyWeatherDiffCallback()){
 
 
     class DailyWeatherViewHolder(private val binding: NextDayItemBinding): RecyclerView.ViewHolder(binding.root){
         @RequiresApi(Build.VERSION_CODES.O)
-        fun bind(weather: WeatherForecast) {
-            // Convert dt_txt to LocalDateTime
+        fun bind(weather: WeatherForecast, locale: Locale) {
             val dateTime = LocalDateTime.parse(weather.dt_txt, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))
-            // Get the name of the day
-            val dayOfWeek = dateTime.dayOfWeek.name.toLowerCase(Locale.getDefault()).capitalize()
-            binding.townName.text = dayOfWeek // Set the day name
-            // Get a formatted date
-            val dateFormatter = DateTimeFormatter.ofPattern("dd MMM yyyy", Locale.getDefault())
-            binding.date.text = dateTime.format(dateFormatter) // Set the formatted date (day/month/year)
+            val dayOfWeek = dateTime.dayOfWeek.getDisplayName(TextStyle.FULL, locale)
+            binding.townName.text = dayOfWeek
+
+            val dateFormatter = DateTimeFormatter.ofPattern("dd MMM yyyy", locale)
+            val formattedDate = dateTime.format(dateFormatter)
+            binding.date.text = formattedDate
             // Set the temperature
             binding.temp.text = weather.main.temp.toString()
             // Load weather icon
@@ -48,7 +48,8 @@ class DailyWeatherAdapter:ListAdapter<WeatherForecast,DailyWeatherAdapter.DailyW
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onBindViewHolder(holder: DailyWeatherViewHolder, position: Int) {
-        holder.bind(getItem(position))
+        val locale = if (selectedLanguage == "ar") Locale("ar") else Locale("en")
+        holder.bind(getItem(position), locale)
     }
 }
 
