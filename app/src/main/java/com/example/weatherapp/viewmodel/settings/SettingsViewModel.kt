@@ -31,17 +31,16 @@ class SettingsViewModel(val repo: WeatherRepository) : ViewModel() {
     fun selectTemperatureUnit(unit: String) {
         _selectedTemperatureUnit.value = unit
         repo.setTempUnit(unit)
-        when(repo.getWindSpeedUnit()){
-            "M/S" -> repo.setUnit("standard")
-            "K/H" -> repo.setUnit("metric")
-            "M/H" -> repo.setUnit("imperial")
-        }
     }
 
     fun selectWindUnit(unit: String) {
         _selectedWindUnit.value = unit
         repo.setWindSpeedUnit(unit)
-        changeUnit()
+        when(repo.getWindSpeedUnit()){
+            "M/S" -> repo.setUnit("standard")
+            "K/H" -> repo.setUnit("metric")
+            "M/H" -> repo.setUnit("imperial")
+        }
     }
 
     fun selectNotificationsEnabled(enabled: String) {

@@ -125,11 +125,11 @@ class HomeFragment : Fragment() {
                         val dateFormat = SimpleDateFormat("dd MMM yyyy : HH:mm ", Locale.getDefault())
                         val formattedDate = dateFormat.format(Date(dateInMillis))
                         binding.date.text = formattedDate
-                        binding.temp.text = state.data.body()?.main?.temp.toString()
+                        binding.temp.text = "${state.data.body()?.main?.temp.toString()} ${viewModel.repo.getTempUnit()}"
                         binding.weatherDesc.text = state.data.body()?.weather?.get(0)?.description
                         binding.pressureTxt.text = "${state.data.body()?.main?.pressure.toString()} hpa"
                         binding.humidityTxt.text = "${state.data.body()?.main?.humidity.toString()} %"
-                        binding.windTxt.text = "${state.data.body()?.wind?.speed .toString()}+ ${viewModel.repo.getWindSpeedUnit()}"
+                        binding.windTxt.text = "${state.data.body()?.wind?.speed .toString()}${viewModel.repo.getWindSpeedUnit()}"
                         binding.cloudTxt.text = "${state.data.body()?.clouds?.all.toString()} %"
                         Glide.with(binding.image1.context)
                             .load("https://openweathermap.org/img/wn/${state.data.body()?.weather?.get(0)?.icon}.png")

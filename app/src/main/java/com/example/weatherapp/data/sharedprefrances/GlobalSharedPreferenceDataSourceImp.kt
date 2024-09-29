@@ -25,7 +25,7 @@ class GlobalSharedPreferenceDataSourceImp(private val sharedPreferences: SharedP
     }
 
     override fun getTempUnit(): String {
-        return sharedPreferences.getString(tempUnitKey, "Celsius") ?: "Celsius"
+        return sharedPreferences.getString(tempUnitKey, "C") ?: "C"
     }
 
     override fun setTempUnit(string: String) {
@@ -89,7 +89,7 @@ class GlobalSharedPreferenceDataSourceImp(private val sharedPreferences: SharedP
     }
 
     override fun getWindSpeedUnit(): String {
-        return sharedPreferences.getString(windSpeedUnitKey, "m/s") ?: "m/s"
+        return sharedPreferences.getString(windSpeedUnitKey, "M/S") ?: "M/S"
     }
 
     override fun setWindSpeedUnit(string: String) {

@@ -133,13 +133,13 @@
 
                         <TextView
                             android:id="@+id/temp"
-                            android:layout_width="wrap_content"
+                            android:layout_width="70dp"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
                             android:fontFamily="@font/yonoy"
                             android:text="27"
                             android:textColor="@color/white"
-                            android:textSize="45dp" />
+                            android:textSize="24dp" />
 
                         <!--<TextView
                             android:id="@+id/feelsLike"
