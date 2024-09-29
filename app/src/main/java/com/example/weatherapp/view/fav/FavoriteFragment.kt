@@ -78,7 +78,7 @@ class FavoriteFragment : Fragment(),FavItemClickListener {
         viewModel = ViewModelProvider(this, favFactory).get(FavoriteViewModel::class.java)
     }
     private fun setupRecyclerView() {
-        favWeatherAdapter = FavWeatherAdapter(this)
+        favWeatherAdapter = FavWeatherAdapter(this,viewModel.repo.getLang())
         binding.recyclerView3.apply {
             layoutManager = GridLayoutManager(context,2)
             adapter = favWeatherAdapter

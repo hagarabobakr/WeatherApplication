@@ -46,6 +46,6 @@
             app:menu="@menu/main_menu"
             app:itemBackground="@drawable/nav_item_background"
             app:itemIconTint="@color/oceanBreeze"
-            app:itemTextColor="@color/white" />
+            app:itemTextColor="@color/black" />
     </androidx.drawerlayout.widget.DrawerLayout>
 </layout>
