@@ -1,5 +1,8 @@
 package com.example.weatherapp.data.sharedprefrances
 
+import com.example.weatherapp.data.model.FavoriteWeather
+import com.example.weatherapp.data.model.Weather
+
 interface GlobalSharedPreferenceDataSource {
 //unit
     fun getUnit():String
@@ -37,4 +40,13 @@ interface GlobalSharedPreferenceDataSource {
     fun getNotificationsEnabled(): String
     fun setLocationEnabled(string: String)
     fun getLocationEnabled(): String
+
+
+    //home weather
+    fun saveFavoriteWeather(favoriteWeather: FavoriteWeather)
+    fun getFavoriteWeather(): FavoriteWeather?
+
+
+    fun saveWeather(weather: Weather)
+    fun getWeather(): Weather?
 }
