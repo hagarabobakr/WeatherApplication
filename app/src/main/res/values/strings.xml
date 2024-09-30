@@ -61,4 +61,8 @@
     <string name="favorites">Favorites</string>
     <string name="alerts">Alerts</string>
     <string name="mapfragment">MapFragment</string>
+    <string name="no_weather_data_available">NO WEATHER DATA AVAILABLE</string>
+    <string name="no_hourly_weather_data_available">NO HOURLY WEATHER DATA AVAILABLE</string>
+    <string name="no_daily_weather_data_available">no_daily_weather_data_available</string>
+    <string name="no_internet_connection">no_internet_connection</string>
 </resources>

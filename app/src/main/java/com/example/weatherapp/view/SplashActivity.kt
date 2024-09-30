@@ -5,6 +5,9 @@ import android.content.Intent
 import android.health.connect.datatypes.ExerciseRoute
 import android.location.Geocoder
 import android.location.Location
+import android.net.ConnectivityManager
+import android.net.NetworkCapabilities
+import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -32,16 +35,17 @@ import mumayank.com.airlocationlibrary.AirLocation
 import java.util.Locale
 
 class SplashActivity : AppCompatActivity(), AirLocation.Callback  {
-    private  val TAG = "SplashActivity"
-   private lateinit var binding : ActivitySplashBinding
-    lateinit var splashAnimation : LottieAnimationView
-   private lateinit var viewModel : SplashViewModel
-   private lateinit var splashViewModelFactory: SplashViewModelFactory
-   lateinit var airLocation : AirLocation
+    private val TAG = "SplashActivity"
+    private lateinit var binding: ActivitySplashBinding
+    private lateinit var splashAnimation: LottieAnimationView
+    private lateinit var viewModel: SplashViewModel
+    private lateinit var splashViewModelFactory: SplashViewModelFactory
+    private lateinit var airLocation: AirLocation
     private var lat: Double = 0.0
     private var lon: Double = 0.0
     private var city: String = ""
     private var dataFetched: Boolean = false
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivitySplashBinding.inflate(layoutInflater)
@@ -50,10 +54,17 @@ class SplashActivity : AppCompatActivity(), AirLocation.Callback  {
         splashAnimation = binding.weatherAnimator
         splashAnimation.loop(true)
         splashAnimation.playAnimation()
-        Handler(Looper.getMainLooper()).postDelayed({
-            getLocation()
-        }, 3000)
 
+        // Check internet connection before fetching location
+        if (isNetworkAvailable()) {
+            Handler(Looper.getMainLooper()).postDelayed({
+                getLocation()
+            }, 3000)
+        } else {
+            Toast.makeText(this, R.string.no_internet_connection, Toast.LENGTH_SHORT).show()
+            // Optionally, you can navigate to main activity with stored data if needed
+            navigateToMainActivity()
+        }
     }
 
     private fun getLocation() {
@@ -78,9 +89,8 @@ class SplashActivity : AppCompatActivity(), AirLocation.Callback  {
         } else {
             lat = locations[0].latitude
             lon = locations[0].longitude
-            viewModel.saveLocation(lat,lon)
+            viewModel.saveLocation(lat, lon)
             val geocoder = Geocoder(this, Locale.getDefault())
-            //Log.d("Splash", "lat: $lat, lon: $lon")
             try {
                 val addressList = geocoder.getFromLocation(lat, lon, 1)
                 if (!addressList.isNullOrEmpty()) {
@@ -89,38 +99,45 @@ class SplashActivity : AppCompatActivity(), AirLocation.Callback  {
                     dataFetched = true
                     navigateToMainActivity()
                 } else {
-                    // Address list is empty or null
                     Toast.makeText(this, R.string.Invalid, Toast.LENGTH_SHORT).show()
-                    //binding.textSplash.text = getString(R.string.Location_Unknown)
                 }
             } catch (e: Exception) {
-
                 e.printStackTrace()
-               // Toast.makeText(this, R.string.geocoder_service_not_available, Toast.LENGTH_SHORT).show()
-                //binding.textSplash.text = getString(R.string.Location_Unknown)
             }
         }
-
     }
+
     private fun setupViewModel() {
         val sharedPrefs = getSharedPreferences("MySharedPrefs", Context.MODE_PRIVATE)
-        val remoteDataSource = WeatherRemoteDataSource(RetrofitHelper.getInstance().create(
-            ApiService::class.java))
+        val remoteDataSource = WeatherRemoteDataSource(RetrofitHelper.getInstance().create(ApiService::class.java))
         val database = AppDatabase.getDatabase(this)
         val localDataSource = WeatherLocalDataSource(database.favoriteWeatherDao())
         val sharedPreferenceDataSourceImp = GlobalSharedPreferenceDataSourceImp(sharedPrefs)
         val repository = WeatherRepository.getInstance(remoteDataSource, localDataSource, sharedPreferenceDataSourceImp)
-        val splashViewModelFactory = SplashViewModelFactory(repository)
-         viewModel = ViewModelProvider(this, splashViewModelFactory).get(SplashViewModel::class.java)
-
+        splashViewModelFactory = SplashViewModelFactory(repository)
+        viewModel = ViewModelProvider(this, splashViewModelFactory).get(SplashViewModel::class.java)
     }
 
     private fun navigateToMainActivity() {
+        splashAnimation.cancelAnimation()
         Intent(this, HomeActivity::class.java).also {
             it.putExtra("latitude", lat)
             it.putExtra("longitude", lon)
             startActivity(it)
             finish()
+        }
+    }
+
+    private fun isNetworkAvailable(): Boolean {
+        val connectivityManager = getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            val networkCapabilities = connectivityManager.activeNetwork?.let {
+                connectivityManager.getNetworkCapabilities(it)
+            }
+            networkCapabilities?.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET) == true
+        } else {
+            val activeNetworkInfo = connectivityManager.activeNetworkInfo
+            activeNetworkInfo?.isConnected == true
         }
 }
 }

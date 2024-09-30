@@ -3,6 +3,7 @@ package com.example.weatherapp.data.sharedprefrances
 import android.content.SharedPreferences
 import com.example.weatherapp.data.model.FavoriteWeather
 import com.example.weatherapp.data.model.Weather
+import com.example.weatherapp.data.model.WeatherForecast
 import com.google.gson.Gson
 
 class GlobalSharedPreferenceDataSourceImp(private val sharedPreferences: SharedPreferences):GlobalSharedPreferenceDataSource {
@@ -20,6 +21,29 @@ class GlobalSharedPreferenceDataSourceImp(private val sharedPreferences: SharedP
     private val locationEnabledKey = "LOCATION_ENABLED"
     private val favoriteWeatherKey = "FAVORITE_WEATHER"
     private val weatherKey = "WEATHER"
+    private val hourlyWeatherKey = "HOURLY_WEATHER"
+    private val dailyWeatherKey = "DAILY_WEATHER"
+
+    override fun saveHourlyWeather(hourlyWeather: List<WeatherForecast>) {
+        val json = Gson().toJson(hourlyWeather)
+        sharedPreferences.edit().putString(hourlyWeatherKey, json).apply()
+    }
+
+    override fun getHourlyWeather(): List<WeatherForecast>? {
+        val json = sharedPreferences.getString(hourlyWeatherKey, null) ?: return null
+        return Gson().fromJson(json, Array<WeatherForecast>::class.java).toList()
+    }
+
+    override fun saveDailyWeather(dailyWeather: List<WeatherForecast>) {
+        val json = Gson().toJson(dailyWeather)
+        sharedPreferences.edit().putString(dailyWeatherKey, json).apply()
+    }
+
+    override fun getDailyWeather(): List<WeatherForecast>? {
+        val json = sharedPreferences.getString(dailyWeatherKey, null) ?: return null
+        return Gson().fromJson(json, Array<WeatherForecast>::class.java).toList()
+    }
+
 
     override fun saveWeather(weather: Weather) {
         val json = Gson().toJson(weather)

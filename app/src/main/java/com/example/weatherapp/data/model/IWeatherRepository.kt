@@ -76,4 +76,19 @@ interface IWeatherRepository {
     fun setLocationEnabled(location: String)
     fun getNotificationsEnabled(): String
     fun getLocationEnabled(): String
+
+
+
+    fun saveWeather(weather: Weather)
+    fun getWeather(): Weather?
+    fun saveFavoriteWeather(favoriteWeather: FavoriteWeather)
+    fun getFavoriteWeather(): FavoriteWeather?
+
+    fun saveHourlyWeather(hourlyWeather: List<WeatherForecast>)
+    fun getHourlyWeather(): List<WeatherForecast>?
+
+    fun saveDailyWeather(dailyWeather: List<WeatherForecast>)
+    fun getDailyWeather(): List<WeatherForecast>?
+
+
 }
