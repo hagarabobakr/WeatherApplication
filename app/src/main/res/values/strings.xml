@@ -65,4 +65,8 @@
     <string name="no_hourly_weather_data_available">NO HOURLY WEATHER DATA AVAILABLE</string>
     <string name="no_daily_weather_data_available">no_daily_weather_data_available</string>
     <string name="no_internet_connection">no_internet_connection</string>
+    <string name="activate_feature">Activate Feature</string>
+    <string name="activating_this_feature_costs_half_a_million">Activating this feature costs half a million.</string>
+    <string name="ok">OK</string>
+    <string name="cancel">Cancel</string>
 </resources>
