@@ -188,4 +188,36 @@ class FakeRepo() :IWeatherRepository {
     override fun getLocationEnabled(): String {
         return " "
     }
+
+    override fun saveWeather(weather: Weather) {
+        TODO("Not yet implemented")
+    }
+
+    override fun getWeather(): Weather? {
+        TODO("Not yet implemented")
+    }
+
+    override fun saveFavoriteWeather(favoriteWeather: FavoriteWeather) {
+        TODO("Not yet implemented")
+    }
+
+    override fun getFavoriteWeather(): FavoriteWeather? {
+        TODO("Not yet implemented")
+    }
+
+    override fun saveHourlyWeather(hourlyWeather: List<WeatherForecast>) {
+        TODO("Not yet implemented")
+    }
+
+    override fun getHourlyWeather(): List<WeatherForecast>? {
+        TODO("Not yet implemented")
+    }
+
+    override fun saveDailyWeather(dailyWeather: List<WeatherForecast>) {
+        TODO("Not yet implemented")
+    }
+
+    override fun getDailyWeather(): List<WeatherForecast>? {
+        TODO("Not yet implemented")
+    }
 }
