@@ -1,6 +1,9 @@
 package com.example.weatherapp.data.sharedprefrances
 
 import android.content.SharedPreferences
+import com.example.weatherapp.data.model.FavoriteWeather
+import com.example.weatherapp.data.model.Weather
+import com.google.gson.Gson
 
 class GlobalSharedPreferenceDataSourceImp(private val sharedPreferences: SharedPreferences):GlobalSharedPreferenceDataSource {
     private val tempUnitKey = "TEMP_UNIT"
@@ -15,6 +18,27 @@ class GlobalSharedPreferenceDataSourceImp(private val sharedPreferences: SharedP
     private val unitKey = "UNIT"
     private val notificationsEnabledKey = "NOTIFICATIONS_ENABLED"
     private val locationEnabledKey = "LOCATION_ENABLED"
+    private val favoriteWeatherKey = "FAVORITE_WEATHER"
+    private val weatherKey = "WEATHER"
+
+    override fun saveWeather(weather: Weather) {
+        val json = Gson().toJson(weather)
+        sharedPreferences.edit().putString(weatherKey, json).apply()
+    }
+
+    override fun getWeather(): Weather? {
+        val json = sharedPreferences.getString(weatherKey, null) ?: return null
+        return Gson().fromJson(json, Weather::class.java)
+    }
+    override fun saveFavoriteWeather(favoriteWeather: FavoriteWeather) {
+        val json = Gson().toJson(favoriteWeather)
+        sharedPreferences.edit().putString(favoriteWeatherKey, json).apply()
+    }
+
+    override fun getFavoriteWeather(): FavoriteWeather? {
+        val json = sharedPreferences.getString(favoriteWeatherKey, null) ?: return null
+        return Gson().fromJson(json, FavoriteWeather::class.java)
+    }
 
     override fun getUnit(): String {
         return sharedPreferences.getString(unitKey, "metric") ?: "standard"

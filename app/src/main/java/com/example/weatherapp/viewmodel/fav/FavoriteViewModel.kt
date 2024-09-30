@@ -6,6 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.weatherapp.data.model.FavoriteWeather
+import com.example.weatherapp.data.model.IWeatherRepository
 import com.example.weatherapp.data.model.WeatherRepository
 import com.example.weatherapp.data.remot.ApiState
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -14,7 +15,7 @@ import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
 
-class FavoriteViewModel(val repo: WeatherRepository):ViewModel() {
+class FavoriteViewModel(val repo: IWeatherRepository):ViewModel() {
     private val TAG = "FavoriteViewModel"
     var lat = repo.getFavLat().toDouble()
     var lon = repo.getFavLon().toDouble()
