@@ -64,5 +64,10 @@
     <string name="no_hourly_weather_data_available">لا توجد بيانات طقس ساعية متاحة</string>
     <string name="no_daily_weather_data_available">لا توجد بيانات طقس يومية متاحة</string>
     <string name="no_internet_connection">لا توجد اتصال بالإنترنت</string>
+    <string name="activate_feature">تفعيل الميزة</string>
+    <string name="activating_this_feature_costs_half_a_million">تفعيل هذه الميزة يكلف نصف مليون جنية.</string>
+    <string name="ok">موافق</string>
+    <string name="cancel">إلغاء</string>
+
 
 </resources>
