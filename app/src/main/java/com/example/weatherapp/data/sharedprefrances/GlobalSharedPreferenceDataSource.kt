@@ -2,6 +2,7 @@ package com.example.weatherapp.data.sharedprefrances
 
 import com.example.weatherapp.data.model.FavoriteWeather
 import com.example.weatherapp.data.model.Weather
+import com.example.weatherapp.data.model.WeatherForecast
 
 interface GlobalSharedPreferenceDataSource {
 //unit
@@ -49,4 +50,12 @@ interface GlobalSharedPreferenceDataSource {
 
     fun saveWeather(weather: Weather)
     fun getWeather(): Weather?
+
+
+    fun saveHourlyWeather(hourlyWeather: List<WeatherForecast>)
+    fun getHourlyWeather(): List<WeatherForecast>?
+
+    fun saveDailyWeather(dailyWeather: List<WeatherForecast>)
+    fun getDailyWeather(): List<WeatherForecast>?
+
 }

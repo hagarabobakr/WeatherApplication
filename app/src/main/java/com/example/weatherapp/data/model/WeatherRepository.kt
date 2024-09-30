@@ -168,4 +168,39 @@ class WeatherRepository (private var remoteDataSource: IWeatherRemoteDataSourceI
     }
 
 
+
+
+    override fun saveWeather(weather: Weather) {
+        globalSharedPreferenceDataSource.saveWeather(weather)
+    }
+
+    override fun getWeather(): Weather? {
+        return globalSharedPreferenceDataSource.getWeather()
+    }
+
+    override fun saveFavoriteWeather(favoriteWeather: FavoriteWeather) {
+        globalSharedPreferenceDataSource.saveFavoriteWeather(favoriteWeather)
+    }
+
+    override fun getFavoriteWeather(): FavoriteWeather? {
+        return globalSharedPreferenceDataSource.getFavoriteWeather()
+    }
+
+
+    override fun saveHourlyWeather(hourlyWeather: List<WeatherForecast>) {
+        globalSharedPreferenceDataSource.saveHourlyWeather(hourlyWeather)
+    }
+
+    override fun getHourlyWeather(): List<WeatherForecast>? {
+        return globalSharedPreferenceDataSource.getHourlyWeather()
+    }
+
+    override fun saveDailyWeather(dailyWeather: List<WeatherForecast>) {
+        globalSharedPreferenceDataSource.saveDailyWeather(dailyWeather)
+    }
+
+    override fun getDailyWeather(): List<WeatherForecast>? {
+        return globalSharedPreferenceDataSource.getDailyWeather()
+    }
+
 }

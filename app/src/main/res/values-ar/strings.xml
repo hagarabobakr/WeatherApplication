@@ -60,4 +60,9 @@
     <string name="favorites">المفضلات</string>
     <string name="alerts">التنبيهات</string>
     <string name="mapfragment">الخريطة</string>
+    <string name="no_weather_data_available">لا توجد بيانات طقس متاحة</string>
+    <string name="no_hourly_weather_data_available">لا توجد بيانات طقس ساعية متاحة</string>
+    <string name="no_daily_weather_data_available">لا توجد بيانات طقس يومية متاحة</string>
+    <string name="no_internet_connection">لا توجد اتصال بالإنترنت</string>
+
 </resources>
